@@ -7,16 +7,26 @@ import GreyButton from "../buttons/GreyButton"
 import BlueButton from "../buttons/BlueButton"
 
 
-export default function OrderPreview() {
+export default function OrderPreviewStep() {
 
     const selectedItems = useOrderStore( (state) => state.selectedLabItems )
     const totalAmountOrder  = useOrderStore( (state) => state.totalAmountOrder )
     const selectedClient = useOrderStore( (state) => state.selectedClient )
+    const setActiveStep = useOrderStore((state) => state.setActiveStep);
+
+    const handleResetClient = () => {
+        setActiveStep(1);
+    };
+    
+    const handleEditLabs = () => {
+        setActiveStep(0);
+    };
 
   return (
     <div className="flex flex-col gap-5">
         <div className="mx-auto">
-            <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC', fontSize: 16, ...(window.innerWidth < 1280 && { fontSize: 15}) }}>
+            {/* <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC', fontSize: 16, ...(window.innerWidth < 1280 && { fontSize: 15}) }}> */}
+            <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC' }}>
             Por favor antes de continuar, revise y verifique que la información del paciente, como también los estudios sean correctos.
             </Alert>
         </div>
@@ -31,11 +41,11 @@ export default function OrderPreview() {
                 <div className="flex flex-col justify-between h-full">
                     <SelectedClientDetails client={selectedClient} />
                     <div className="flex flex-col lg:flex-row gap-3 justify-center">
-                        <BlueButton>
+                        <BlueButton onClick={handleResetClient}>
                             Elegir otro Cliente
                         </BlueButton>
 
-                        <GreyButton>
+                        <GreyButton onClick={handleEditLabs}>
                             Cambiar Estudios
                         </GreyButton>     
                     </div>

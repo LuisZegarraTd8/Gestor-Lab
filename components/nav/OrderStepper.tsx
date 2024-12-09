@@ -6,7 +6,7 @@ import SelectPatientStep from '../step/SelectPatientStep';
 import BlueButton from '../buttons/BlueButton';
 import { useOrderStore } from '@/src/store';
 import GreyButton from '../buttons/GreyButton';
-import OrderPreview from '../step/OrderPreview';
+import OrderPreviewStep from '../step/OrderPreviewStep';
 
 
 
@@ -16,32 +16,31 @@ export default function OrderStepper() {
   const selectedLabItems = useOrderStore( (state) => state.selectedLabItems)
   const selectedClient = useOrderStore( (state) => state.selectedClient)
   const [isDisabled, setIsDisabled] = useState(true);
-  const [activeStep, setActiveStep] = useState(0);
+  const activeStep = useOrderStore((state) => state.activeStep);
+  const setActiveStep = useOrderStore((state) => state.setActiveStep);
+  const resetOrder = useOrderStore((state) => state.resetOrder);
 
-  // Para desactivar siguiente si no item en el carrito en el paso 1
+  // Para desactivar el boton siguiente.
   useEffect(() => {
-    setIsDisabled(selectedLabItems.length === 0); 
-  }, [selectedLabItems])
-
-  // Para desactivar si no hay un cliente seleccionado en el paso 2
-  useEffect(() => {
-    if (activeStep === 1 && !selectedClient) { 
-      setIsDisabled(true);
+    if (activeStep === 1) { 
+      setIsDisabled(!(selectedClient.id !== "")); // Desactiva si no hay cliente, habilita si hay cliente.
+    } else if (activeStep === 0) {
+      setIsDisabled(selectedLabItems.length === 0) // deshabilita si no hay estudios seleccionados.
     }
-  }, [activeStep, selectedClient]);
+    else {
+      setIsDisabled(false); // Habilita en otros pasos.
+    }
+  }, [activeStep, selectedClient, selectedLabItems]);
 
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep(activeStep + 1); 
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(activeStep - 1); 
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
 
   return (
     <div>
@@ -61,7 +60,7 @@ export default function OrderStepper() {
           <div className="p-6 rounded-lg bg-neutral-100 w-full shadow-md flex flex-col justify-start items-center lg:min-h-[32rem] 2xl:min-h-[43rem] gap-2 md:gap-4 my-4">
             <h2 className="text-center text-xl font-bold text-negro-claro uppercase py-2 border-b-4 border-gris-oscuro/30 h-fit w-11/12">Orden Generada</h2>
 
-            <BlueButton onClick={handleReset} sx={{ minWidth: 280}}>
+            <BlueButton onClick={resetOrder} sx={{ minWidth: 280}}>
               Generar Nueva Orden
             </BlueButton>
           </div>
@@ -72,7 +71,7 @@ export default function OrderStepper() {
 
           {activeStep === 1 && <SelectPatientStep/> }
 
-          {activeStep === 2 && <OrderPreview/>}
+          {activeStep === 2 && <OrderPreviewStep/>}
 
           <div className='flex flex-col sm:flex-row gap-1 py-4'>
             <GreyButton onClick={handleBack} disabled={activeStep === 0} sx={{ minWidth: 280}}>

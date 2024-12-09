@@ -19,6 +19,7 @@ export default function SearchDocForm() {
     
     const onSubmit: SubmitHandler<SearchDocFormData> = (data) => {
         console.log("Buscando al cliente...",data);
+        
         showSearchResult();
     };
     

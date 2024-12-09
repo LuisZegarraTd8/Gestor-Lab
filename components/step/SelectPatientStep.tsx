@@ -1,20 +1,20 @@
 import { Alert } from "@mui/material";
 import { useOrderStore } from "@/src/store";
-import ClientForm from "../forms/ClientForm";
 import SearchDocForm from "../forms/SearchDocForm";
 import ClientsList from "../list/ClientsList";
-import SelectedClientDetails from "../list/SelectedClientDetail";
+
 
 
 export default function SelectPatientStep() {
   // Store de Zustand
   const selectedClient = useOrderStore( (state) => state.selectedClient )
-  const { visibleNewClientForm, visibleSearchClientForm, visibleSearchResult, visibleSelectedClient } = useOrderStore()
+  const { visibleSearchResult, visibleSelectedClient } = useOrderStore()
 
   return (
     <div className="flex flex-col gap-5">
       <div className="mx-auto">
-        <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC', fontSize: 16, ...(window.innerWidth < 1280 && { fontSize: 15}) }}>
+        {/* <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC', fontSize: 16, ...(window.innerWidth < 1280 && { fontSize: 15}) }}> */}
+        <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC' }}>
           Por favor para continuar, busque y seleccione al cliente. Sino se encontraron resultados, por favor complete el formulario de registro para el nuevo cliente.
         </Alert>
       </div>

@@ -1,17 +1,11 @@
 import { useOrderStore } from "@/src/store"
 import ClientDetails from "./ClientDetails"
-import BlueButton from "../buttons/BlueButton";
 import ClientForm from "../forms/ClientForm";
 
 export default function ClientsList() {
 
     const clients = useOrderStore((state) => state.foundClients)
-    const { showNewClientForm, hideSearchResult } = useOrderStore()
 
-    function goToNewClientForm () {
-        hideSearchResult();
-        showNewClientForm();
-    }
     
     return (
         <>
