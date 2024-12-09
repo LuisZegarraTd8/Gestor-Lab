@@ -4,9 +4,9 @@ import {
     GridToolbarQuickFilter
 } from '@mui/x-data-grid';
 import LabCalculator, { LabItem } from '../services/lab-calculator';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { useOrderStore } from "@/src/store";
-
+import { useEffect, useState } from 'react';
 
 function CustomToolbar() {
         return (
@@ -26,41 +26,57 @@ function CustomToolbar() {
 const columns: GridColDef[] = [
   {
     field: 'code',
-    headerName: 'Abreviatura',
-    maxWidth: 110,
-    minWidth: 110,
-    flex: 1,
+    headerName: 'Código',
     editable: false,
     disableColumnMenu: true,
+    maxWidth: 110,
+    minWidth: 80,
   },
   {
     field: 'name',
     headerName: 'Estudio de Laboratorio',
-    maxWidth:416,
-    minWidth: 380,
-    flex: 1,
     editable: false,
     disableColumnMenu: true,
-  },
+    flex: 380,
+},
   {
     field: 'price',
     headerName: 'Precio',
     type: 'number',
-    maxWidth: 110,
-    minWidth: 110,
-    flex: 1,
     editable: false,
     disableColumnMenu: true,
+    maxWidth: 110,
+    minWidth: 80,
   },
 ];
 
 type LabTableInputParams = {
     rowSelectionModel: GridRowSelectionModel,
 }
+
 export default function LabTableDesktop( { rowSelectionModel }: LabTableInputParams ) {
 
+    const [paginationModel, setPaginationModel] = useState({
+        pageSize: 6, // Valor por defecto
+        page: 0,
+    });
+    
+    const isSmallScreen = useMediaQuery('(max-width:600px)');
+    const isLargeScreen = useMediaQuery('(min-width:1536px)');
+
+    useEffect(() => {
+        let newPageSize = 6; // Valor por defecto
+        if (isSmallScreen) {
+            newPageSize = 4;
+        } else if (isLargeScreen) {
+            newPageSize = 8;
+        }
+
+        setPaginationModel({ ...paginationModel, pageSize: newPageSize });
+    }, [isSmallScreen, isLargeScreen]);
+
     return (
-        <div className='min-w-fit h-fit'>
+        <div className='w-full h-fit'>
             <DataGrid
                 sx={{border: 'none',
                     width: '100%',
@@ -104,10 +120,9 @@ export default function LabTableDesktop( { rowSelectionModel }: LabTableInputPar
                 columns={columns}
                 rowSelectionModel={rowSelectionModel}
                 keepNonExistentRowsSelected
-                initialState={{
-                    pagination: { paginationModel: { pageSize: 6 } },
-                }}
-                pageSizeOptions={[4, 6, 8, { value: -1, label: 'All' }]}
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+                pageSizeOptions={[4, 6, 8, { value: -1, label: 'Todos' }]}
                 checkboxSelection
                 slots={{
                     toolbar: CustomToolbar

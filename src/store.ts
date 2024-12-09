@@ -23,7 +23,6 @@ interface OrderStore {
     selectedRows: GridRowSelectionModel;
 
     // States de Clientes
-    visibleOptionsClient: boolean;
     visibleSearchClientForm: boolean;
     visibleNewClientForm: boolean;
     visibleSearchResult: boolean;
@@ -37,8 +36,6 @@ interface OrderStore {
     saveTotalAmount: (value: string) => void;
 
     // Actions de Clientes
-    showOptionClient: () => void;
-    hideOptionClient: () => void;
     showSearchClientForm: () => void;
     hideSearchClientForm: () => void;
     showNewClientForm: () => void;
@@ -57,8 +54,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
     selectedRows: [],
 
     // States de Clientes
-    visibleOptionsClient: true,
-    visibleSearchClientForm: false,
+    visibleSearchClientForm: true,
     visibleNewClientForm: false,
     visibleSearchResult: false,
     visibleSelectedClient: false,
@@ -84,11 +80,6 @@ export const useOrderStore = create<OrderStore>((set) => ({
 
 
     // Actions de Clientes
-    showOptionClient: () => 
-        set((state) => ({ ...state, visibleOptionsClient: true })),
-    hideOptionClient: () => 
-        set((state) => ({ ...state, visibleOptionsClient: false })),
-
     showSearchClientForm: ()  =>
         set((state) => ({ ...state, visibleSearchClientForm: true })),
     hideSearchClientForm: ()  =>

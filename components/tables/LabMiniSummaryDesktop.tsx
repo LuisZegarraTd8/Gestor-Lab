@@ -24,9 +24,9 @@ export default function LabMiniSummaryDesktop(
     { selectedLabItems, deleteSelectedLabItem, deleteSelectedRowSelectionModel }: LabMiniSummaryInputParams,
 ) {
     return (
-        <>
+        <div className=' h-80 sm:h-[25rem] 2xl:h-[30rem]'>
             <TableVirtuoso
-                style={{ height: 400,  width: '100%', backgroundColor: '#f5f5f4', boxShadow: 'none'}}
+                style={{ height: '100%',  width: '100%', backgroundColor: '#f5f5f4', boxShadow: 'none'}}
                 data={selectedLabItems || []}
                 // @ts-ignore
                 components={TableComponents}
@@ -62,6 +62,6 @@ export default function LabMiniSummaryDesktop(
                 )}
             />
 
-        </>
+        </div>
     );
 }
