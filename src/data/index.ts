@@ -1,4 +1,4 @@
-import { DocTypes, OrderStatus } from "@/types";
+import { DocTypes, OrderStatus } from "@/src/types";
 
 
 export const docTypes : DocTypes[] = [

@@ -1,8 +1,7 @@
-import LabCalculator, {LabItem} from "../services/lab-calculator";
+import LabCalculator, {LabItem} from "../../src/services/lab-calculator";
 import {useEffect} from "react";
-import {GridRowSelectionModel} from "@mui/x-data-grid";
 import BigNumber from "bignumber.js";
-import MathUtils from "../services/math-utils";
+import MathUtils from "../../src/services/math-utils";
 import LabMiniSummaryDesktop from '../tables/LabMiniSummaryDesktop';
 import LabTableDesktop from "../tables/LabTableDesktop";
 import TotalQuote from "../tables/TotalQuote";

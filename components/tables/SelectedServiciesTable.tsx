@@ -1,6 +1,6 @@
 import { Paper, TableCell, TableHead, TableRow, TableContainer, Table, TableBody } from '@mui/material';
 import { TableVirtuoso } from 'react-virtuoso';
-import LabCalculator, { LabItem } from '../services/lab-calculator';
+import LabCalculator, { LabItem } from '../../src/services/lab-calculator';
 import React from 'react';
 
 const TableComponents = {

@@ -1,11 +1,11 @@
 'use client'
 import BlueButton from "@/components/buttons/BlueButton";
-import { docTypes } from "@/data";
+import { docTypes } from "@/src/data";
 import { MenuItem, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ClientFormSchema } from "@/schema";
-import { ClientFormData } from "@/types";
+import { ClientFormSchema } from "@/src/schema";
+import { ClientFormData } from "@/src/types";
 import GreyButton from "../buttons/GreyButton";
 import { useOrderStore } from "@/src/store";
 

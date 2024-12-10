@@ -1,6 +1,6 @@
-import { Client, LabItem } from "@/types";
+import { Client, LabItem } from "@/src/types";
 import { create } from "zustand";
-import labItemsData from "@/data/lab-oct-2024.json";
+import labItemsData from "./data/lab-oct-2024.json";
 import BigNumber from "bignumber.js";
 import { GridRowSelectionModel } from "@mui/x-data-grid";
 
@@ -29,6 +29,7 @@ interface OrderState {
     visibleSearchResult: boolean;
     visibleSelectedClient: boolean;
     
+    allClients: Client[];
     foundClients: Client[];
     selectedClient: Client;
 }
@@ -52,6 +53,7 @@ interface OrderActions {
 const initialState: OrderState = {
     // State del Stepper
     activeStep: 0,
+    
   
     // States de Estudios
     selectedLabItems: [],
@@ -62,7 +64,8 @@ const initialState: OrderState = {
     // States de Clientes
     visibleSearchResult: false,
     visibleSelectedClient: false,
-  
+
+    allClients: [],
     foundClients: [],
     selectedClient: {
         id: '',
