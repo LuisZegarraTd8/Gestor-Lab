@@ -1,4 +1,4 @@
-import { Client } from "@/types"
+import { Client } from "@/src/types"
 import ClientDetailItem from "./ClientDetailItem"
 import { useOrderStore } from "@/src/store"
 import GreyButton from "../buttons/GreyButton"

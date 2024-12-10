@@ -1,6 +1,6 @@
 import { Paper, TableCell, TableHead, TableRow, TableContainer, Table, TableBody } from '@mui/material';
 import { TableVirtuoso } from 'react-virtuoso';
-import { LabItem } from '../services/lab-calculator';
+import { LabItem } from '../../src/services/lab-calculator';
 import DeleteLabIconButton from '../buttons/DeleteLabIconButton';
 import React from 'react';
 

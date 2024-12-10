@@ -3,7 +3,7 @@ import {
     GridToolbarContainer, GridToolbarDensitySelector, GridToolbarExport,
     GridToolbarQuickFilter
 } from '@mui/x-data-grid';
-import LabCalculator, { LabItem } from '../services/lab-calculator';
+import LabCalculator, { LabItem } from '../../src/services/lab-calculator';
 import { Box, useMediaQuery } from '@mui/material';
 import { useOrderStore } from "@/src/store";
 import { useEffect, useState } from 'react';

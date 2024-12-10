@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ClientFormSchema, ClientSchema,DocTypeSchema,HealthOrderSchema, LabItemSchema, OrderStatusSchema, SearchDocFormSchema } from "@/schema";
+import { ClientFormSchema, ClientSchema,DocTypeSchema,HealthOrderSchema, LabItemSchema, OrderStatusSchema, SearchDocFormSchema } from "@/src/schema";
 
 export type DocTypes = z.infer<typeof DocTypeSchema>
 

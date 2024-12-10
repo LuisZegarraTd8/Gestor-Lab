@@ -1,26 +1,33 @@
 'use client'
 import BlueButton from "@/components/buttons/BlueButton";
-import { docTypes } from "@/data";
+import { docTypes } from "@/src/data";
 import { MenuItem, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SearchDocFormSchema } from "@/schema";
-import { SearchDocFormData } from "@/types";
+import { SearchDocFormSchema } from "@/src/schema";
+import { SearchDocFormData } from "@/src/types";
 import { useOrderStore } from "@/src/store";
+import { loadClients, filterClients } from "../../src/services/clientService";
 
 
 export default function SearchDocForm() {
 
-    const { showSearchResult } = useOrderStore()
+    const { showSearchResult } = useOrderStore( )
 
     const { register, control, handleSubmit, formState: { errors} } = useForm<SearchDocFormData>({
         resolver: zodResolver(SearchDocFormSchema)
     });
     
-    const onSubmit: SubmitHandler<SearchDocFormData> = (data) => {
-        console.log("Buscando al cliente...",data);
-        
-        showSearchResult();
+    const onSubmit: SubmitHandler<SearchDocFormData> = async (data) => {
+        try {
+            const allClients = await loadClients(); // Llamar a loadClients para cargar los clientes
+            const foundClients = filterClients(allClients, data); // Llamar a filterClients para filtrar
+            useOrderStore.setState({ foundClients });
+        } catch (error) {
+            console.error("Error al filtrar clientes:", error); 
+        } finally {
+            showSearchResult();
+        }
     };
     
 

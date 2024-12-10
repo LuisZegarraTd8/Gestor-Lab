@@ -6,7 +6,7 @@ import {
     MenuItem, 
 } from '@mui/material';
 import BlueButton from "@/components/buttons/BlueButton";
-import { docTypes } from '@/data';
+import { docTypes } from '@/src/data';
 import GreyButton from '../buttons/GreyButton';
 
 
