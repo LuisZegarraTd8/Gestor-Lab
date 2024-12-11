@@ -14,7 +14,7 @@ export default function SelectPatientStep() {
     <div className="flex flex-col gap-4">
       <div className="mx-auto">
         {/* <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC', fontSize: 16, ...(window.innerWidth < 1280 && { fontSize: 15}) }}> */}
-        <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC' }}>
+        <Alert variant="filled" severity="info" sx={{ backgroundColor:'#3397b3' }}>
           Por favor para continuar, busque y seleccione al cliente. Sino se encontraron resultados, por favor complete el formulario de registro para el nuevo cliente.
         </Alert>
       </div>

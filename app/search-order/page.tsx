@@ -10,8 +10,8 @@ export default function SearchOrder() {
   return (
     <div className="max-w-7xl flex flex-col mx-auto gap-6 h-auto">
       <h1 className='text-2xl font-bold text-negro-claro uppercase text-center'>Buscar Orden | Lista de ordenes</h1>
-      <div className='px-16'>
-        <Alert variant="filled" severity="info" sx={{ backgroundColor:'#008da6'}}>
+      <div className="mx-auto">
+        <Alert variant="filled" severity="info" sx={{ backgroundColor:'#3397b3'}}>
           Aqui encontraras todas la ordenes generadas. Tambien puede realizar una búsqueda especificas segun el campo seleccionado.
         </Alert>
       </div>

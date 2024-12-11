@@ -8,7 +8,7 @@ export function loadClients(): Client[] {
 }
 
 // Para filtrar los cliente por tipo y numero de documento
-export function filterClients(clients: Client[], searchData: SearchDocFormData): Client[] {
+export function filterDocClients(clients: Client[], searchData: SearchDocFormData): Client[] {
   const { personIdType, personId } = searchData;
   console.log(`Tipo de Documento: "${personIdType}", Número de Documento: "${personId}"`);
   console.log(`Tipo de Documento: "${Boolean(personIdType.trim())}", Número de Documento: "${Boolean(personId)}"`);

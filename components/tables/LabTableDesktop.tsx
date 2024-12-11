@@ -9,19 +9,19 @@ import { useOrderStore } from "@/src/store";
 import { useEffect, useState } from 'react';
 
 function CustomToolbar() {
-        return (
-        <GridToolbarContainer>
-            <GridToolbarDensitySelector 
-            slotProps={{ tooltip: { title: 'Cambiar densidad' } }} 
-            />
-            <GridToolbarExport 
-            slotProps={{ tooltip: { title: 'Exportar datos' } }} 
-            />
-            <Box sx={{ flexGrow: 1 }} />
-            <GridToolbarQuickFilter /> {/* Agrega la barra de búsqueda */}
-        </GridToolbarContainer>
-        );
-    }
+    return (
+    <GridToolbarContainer>
+        <GridToolbarDensitySelector 
+        slotProps={{ tooltip: { title: 'Cambiar densidad' } }} 
+        />
+        <GridToolbarExport 
+        slotProps={{ tooltip: { title: 'Exportar datos' } }} 
+        />
+        <Box sx={{ flexGrow: 1 }} />
+        <GridToolbarQuickFilter /> {/* Agrega la barra de búsqueda */}
+    </GridToolbarContainer>
+    );
+}
 
 const columns: GridColDef[] = [
   {
@@ -65,7 +65,7 @@ export default function LabTableDesktop( { rowSelectionModel }: LabTableInputPar
     const isLargeScreen = useMediaQuery('(min-width:1536px)');
 
     useEffect(() => {
-        let newPageSize = 7; // Valor por defecto
+        let newPageSize = 6; // Valor por defecto
         if (isSmallScreen) {
             newPageSize = 4;
         } else if (isLargeScreen) {
