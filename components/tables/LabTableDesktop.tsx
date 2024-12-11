@@ -65,11 +65,11 @@ export default function LabTableDesktop( { rowSelectionModel }: LabTableInputPar
     const isLargeScreen = useMediaQuery('(min-width:1536px)');
 
     useEffect(() => {
-        let newPageSize = 6; // Valor por defecto
+        let newPageSize = 7; // Valor por defecto
         if (isSmallScreen) {
             newPageSize = 4;
         } else if (isLargeScreen) {
-            newPageSize = 8;
+            newPageSize = 7;
         }
 
         setPaginationModel({ ...paginationModel, pageSize: newPageSize });
@@ -122,7 +122,7 @@ export default function LabTableDesktop( { rowSelectionModel }: LabTableInputPar
                 keepNonExistentRowsSelected
                 paginationModel={paginationModel}
                 onPaginationModelChange={setPaginationModel}
-                pageSizeOptions={[4, 6, 8, { value: -1, label: 'Todos' }]}
+                pageSizeOptions={[4, 5, 7, { value: -1, label: 'Todos' }]}
                 checkboxSelection
                 slots={{
                     toolbar: CustomToolbar

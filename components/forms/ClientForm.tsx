@@ -5,15 +5,28 @@ import { MenuItem, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ClientFormSchema } from "@/src/schema";
-import { ClientFormData } from "@/src/types";
-import GreyButton from "../buttons/GreyButton";
+import { Client, ClientFormData } from "@/src/types";
 import { useOrderStore } from "@/src/store";
 
 
+function generateUniqueId(clients: Client[]): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const idLength = 8;
+  
+    do {
+      result = '';
+      for (let i = 0; i < idLength; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+    } while (clients.some((client) => client.id === result));
+  
+    return result;
+  }
+
 export default function ClientForm() {
 
-    // const { showSelectedClient, hideNewClientForm } = useOrderStore()
-    const { selectedClient } = useOrderStore()
+    const { selectedClient, allClients } = useOrderStore()
     
     const { register, control, handleSubmit, formState: { errors} } = useForm<ClientFormData>({
         resolver: zodResolver(ClientFormSchema)
@@ -21,8 +34,10 @@ export default function ClientForm() {
     
 
     const onSubmit: SubmitHandler<ClientFormData> = (data) => {
+        const newId = generateUniqueId(allClients)
+
         const selectedClient = {
-            id: "Por definir", // ID temporal
+            id: newId, 
             firstName: data.firstName,
             lastName: data.lastName,
             personIdType: data.personIdType,
@@ -34,8 +49,6 @@ export default function ClientForm() {
         };
  
         useOrderStore.setState({ selectedClient });
-        // hideNewClientForm();
-        // showSelectedClient();
     };
 
     return (

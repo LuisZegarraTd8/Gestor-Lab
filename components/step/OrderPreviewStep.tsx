@@ -23,7 +23,7 @@ export default function OrderPreviewStep() {
     };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-4">
         <div className="mx-auto">
             {/* <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC', fontSize: 16, ...(window.innerWidth < 1280 && { fontSize: 15}) }}> */}
             <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC' }}>
@@ -31,7 +31,7 @@ export default function OrderPreviewStep() {
             </Alert>
         </div>
 
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[35rem] 2xl:min-h-[43rem]'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[35rem] 2xl:min-h-[40rem]'>
             {/* Client Preview */}
             <div className="p-6 rounded-lg bg-neutral-100 flex flex-col justify-start gap-2 shadow-md">
                 <h2 className="text-center text-lg font-bold text-negro-claro uppercase py-2 border-b-4 border-gris-oscuro/30 h-fit">

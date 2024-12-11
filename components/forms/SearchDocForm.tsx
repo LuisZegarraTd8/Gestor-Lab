@@ -68,7 +68,7 @@ export default function SearchDocForm() {
                 />
             </div>
 
-            {/* Boton de Busqueda */}
+            {/* Boton de Búsqueda */}
             <div className="col-span-full sm:col-span-4 pt-5">
                 <BlueButton type="submit" fullWidth >Buscar Cliente</BlueButton>
             </div>

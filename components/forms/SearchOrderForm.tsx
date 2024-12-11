@@ -73,7 +73,7 @@ export default function SearchOrderForm() {
         <div className="p-8 bg-gray-100 w-11/12 lg:w-[60rem] h-fit rounded-lg">
             <div className='flex flex-col gap-3 divide-y-[3px] divide-gris-oscuro/30 w-full'>
                 <h1 className="text-center text-xl font-bold text-negro-medio uppercase">
-                    Busqueda de Orden mediante
+                    Búsqueda de Orden mediante
                 </h1>
                 
                 <div className='pt-4 px-1 sm:px-5 w-full'>
@@ -85,7 +85,7 @@ export default function SearchOrderForm() {
                             onChange={handleSearchTypeChange}
                         >
                             <div className='grid grid-cols-1 sm:grid-cols-9 items-center gap-x-4 sm:gap-y-4 mb-4'>
-                                {/* Busqueda por ID */}
+                                {/* Búsqueda por ID */}
                                 <div className='pt-2 sm:col-span-2'>
                                     <FormControlLabel value="orderId" control={<Radio />} label="ID de la Orden" />
                                 </div>
@@ -106,7 +106,7 @@ export default function SearchOrderForm() {
                                     </BlueButton>
                                 </div>
                                
-                                {/* Busqueda por Status*/}
+                                {/* Búsqueda por Status*/}
                                 <div className='pt-2 sm:col-span-2'>
                                     <FormControlLabel value="orderStatus" control={<Radio />} label="Estado de la Orden" />
                                 </div>
@@ -134,7 +134,7 @@ export default function SearchOrderForm() {
                                     </BlueButton>
                                 </div>
                                 
-                                {/* Busqueda por Documento */}
+                                {/* Búsqueda por Documento */}
                                 <div className='pt-2 sm:col-span-2'>
                                     <FormControlLabel value="document" control={<Radio />} label="Documento del Cliente" />
                                 </div>
@@ -172,7 +172,7 @@ export default function SearchOrderForm() {
                                     </BlueButton>
                                 </div>
 
-                                {/* Busqueda por Nombre */}
+                                {/* Búsqueda por Nombre */}
                                 <div className='pt-2 sm:col-span-2'>
                                     <FormControlLabel value="firstName" control={<Radio />} label="Nombre del Cliente" />
                                 </div>
@@ -193,7 +193,7 @@ export default function SearchOrderForm() {
                                     </BlueButton>
                                 </div>
                                 
-                                {/* Busqueda por Apellido */}
+                                {/* Búsqueda por Apellido */}
                                 <div className='pt-2 sm:col-span-2'>
                                     <FormControlLabel value="lastName" control={<Radio />} label="Apellido del Cliente" />
                                 </div>

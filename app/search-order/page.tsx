@@ -12,7 +12,7 @@ export default function SearchOrder() {
       <h1 className='text-2xl font-bold text-negro-claro uppercase text-center'>Buscar Orden | Lista de ordenes</h1>
       <div className='px-16'>
         <Alert variant="filled" severity="info" sx={{ backgroundColor:'#008da6'}}>
-          Aqui encontraras todas la ordenes generadas. Tambien puede realizar una busqueda especificas segun el campo seleccionado.
+          Aqui encontraras todas la ordenes generadas. Tambien puede realizar una búsqueda especificas segun el campo seleccionado.
         </Alert>
       </div>
 
@@ -27,7 +27,7 @@ export default function SearchOrder() {
         
         <div className=' flex content-center w-1/2 mx-auto gap-6 '>
           <BlueButton fullWidth>Filtrar por Estado</BlueButton>
-          <BlueButton fullWidth>Nueva Busqueda</BlueButton>
+          <BlueButton fullWidth>Nueva Búsqueda</BlueButton>
         </div> 
       </div>
       
