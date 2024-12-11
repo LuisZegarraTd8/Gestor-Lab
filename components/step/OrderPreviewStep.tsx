@@ -25,8 +25,8 @@ export default function OrderPreviewStep() {
   return (
     <div className="flex flex-col gap-4">
         <div className="mx-auto">
-            <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC' }}>
-                Por favor antes de continuar, revise y verifique que la información del paciente, como también los estudios sean correctos.
+            <Alert variant="filled" severity="info" sx={{ backgroundColor:'#3397b3' }}>
+            Por favor antes de continuar, revise y verifique que la información del paciente, como también los estudios sean correctos.
             </Alert>
         </div>
 

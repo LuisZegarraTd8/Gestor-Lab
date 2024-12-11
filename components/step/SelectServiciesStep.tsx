@@ -38,7 +38,7 @@ export default function SelectServiciesStep() {
     return (
         <div className="flex flex-col gap-4">
             <div className="mx-auto">
-                <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC' }}>
+                <Alert variant="filled" severity="info" sx={{ backgroundColor:'#3397b3' }}>
                     Por favor para continuar, realice la búsqueda y seleccione los estudios que quiere cotizar. El total está redondeado sin centavos.
                 </Alert>
             </div>

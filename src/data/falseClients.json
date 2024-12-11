@@ -64,5 +64,39 @@
     "booklyId": "BOOK-104",
     "email": "david.sanchez@example.com",
     "phoneNumber": "+49167890123"
+  },
+  
+  {
+    "id": "zLia4OlM",
+    "firstName": "Homero Jey",
+    "lastName": "Simpson",
+    "personIdType": "dni",
+    "personId": "30365001",
+    "externalId": "",
+    "booklyId": "",
+    "email": "homeroJSimpson@correo.com",
+    "phoneNumber": "+5491112345678"
+  },
+  {
+    "id": "aJLZQYev",
+    "firstName": "Bartolomeo Jey",
+    "lastName": "Simpson",
+    "personIdType": "dni",
+    "personId": "45395025",
+    "externalId": "",
+    "booklyId": "",
+    "email": "no.soy.el.barto@correo.com",
+    "phoneNumber": "+5491188885266"
+  },
+  {
+    "id": "qF696Mnm",
+    "firstName": "Ned",
+    "lastName": "Flanders",
+    "personIdType": "other",
+    "personId": "12345678",
+    "externalId": "",
+    "booklyId": "",
+    "email": "ned.flanders@correo.com",
+    "phoneNumber": "+5491102852754"
   }
 ]

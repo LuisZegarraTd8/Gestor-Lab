@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SearchDocFormSchema } from "@/src/schema";
 import { SearchDocFormData } from "@/src/types";
 import { useOrderStore } from "@/src/store";
-import { loadClients, filterClients } from "../../src/services/clientService";
+import { loadClients, filterDocClients } from "../../src/services/clientService";
 
 
 export default function SearchDocForm() {
@@ -21,7 +21,7 @@ export default function SearchDocForm() {
     const onSubmit: SubmitHandler<SearchDocFormData> = async (data) => {
         try {
             const allClients = await loadClients(); // Llamar a loadClients para cargar los clientes
-            const foundClients = filterClients(allClients, data); // Llamar a filterClients para filtrar
+            const foundClients = filterDocClients(allClients, data); // Llamar a filterClients para filtrar
             useOrderStore.setState({ foundClients });
         } catch (error) {
             console.error("Error al filtrar clientes:", error); 
