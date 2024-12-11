@@ -9,7 +9,7 @@ const GreyButton = styled(Button)<ButtonProps>(({ theme }) => ({
   fontWeight: 'normal',
   padding: '8px 16px 8px 16px',
   border: '2px solid #7f7f7F',
-  boxShadow: '3px 3px rgba(0, 0, 0, 0.12)',
+  boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.12)',
   color: theme.palette.getContrastText('#7f7f7F'),
   backgroundColor: '#969696',
   transition: 'colors 0.3s ease-in-out',

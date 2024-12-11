@@ -1,5 +1,6 @@
 import { Client, SearchDocFormData } from "@/src/types";
 import clientsData from '../data/falseClients.json'
+import { docTypes } from "../data";
 
 // Para importar los datos de clientes
 export function loadClients(): Client[] {
@@ -26,3 +27,9 @@ export function filterClients(clients: Client[], searchData: SearchDocFormData):
     }
   });
 }
+
+//  Para reemplazar el valor por la abreviatura del documento
+export function getDocTypeAbbr(value: string): string {
+    const docType = docTypes.find((type) => type.value === value);
+    return docType ? docType.abbr : value;
+  }

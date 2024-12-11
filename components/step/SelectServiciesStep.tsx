@@ -43,7 +43,7 @@ export default function SelectServiciesStep() {
                 </Alert>
             </div>
 
-            <div className='grid grid-cols-1 lg:grid-cols-7 gap-5 min-h-[35rem] 2xl:min-h-[43rem]'>
+            <div className='grid grid-cols-1 lg:grid-cols-7 gap-5 min-h-[35rem] 2xl:min-h-[40rem]'>
                 {/* Option Labs Table */}
                 <div className="px-2 sm:px-6 py-4 xl:py-6 rounded-lg bg-neutral-100 flex flex-col justify-start gap-2 shadow-md lg:col-span-4">
                     <h2 className="text-center text-lg font-bold text-negro-claro uppercase py-2 border-b-4 border-gris-oscuro/30 h-fit">

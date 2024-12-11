@@ -21,7 +21,7 @@ export default function SelectedServiciesTable(
     { selectedLabItems }: SelectedServiciesTableParams,
 ) {
     return (
-        <div className=' h-80 sm:h-[25rem] 2xl:h-[30rem]'>
+        <div className=' h-80 sm:h-[25rem] 2xl:h-[28rem]'>
             <TableVirtuoso
                 style={{ height: '100%',  width: '100%', backgroundColor: '#f5f5f5', boxShadow: 'none'}}
                 data={selectedLabItems || []}
