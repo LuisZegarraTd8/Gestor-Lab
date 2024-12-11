@@ -12,7 +12,6 @@ import { useOrderStore } from "@/src/store";
 
 export default function ClientForm() {
 
-    // const { showSelectedClient, hideNewClientForm } = useOrderStore()
     const { selectedClient } = useOrderStore()
     
     const { register, control, handleSubmit, formState: { errors} } = useForm<ClientFormData>({
@@ -34,8 +33,6 @@ export default function ClientForm() {
         };
  
         useOrderStore.setState({ selectedClient });
-        // hideNewClientForm();
-        // showSelectedClient();
     };
 
     return (

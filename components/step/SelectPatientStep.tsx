@@ -24,12 +24,12 @@ export default function SelectPatientStep() {
           Formulario para Buscar Cliente
         </h2>
 
-        <p className='text-center text-base 2xl:text-lg text-stone-700'>Ingrese el número y/o el tipo de documento del cliente para realizar la busqueda en la base de datos.</p>
+        <p className='text-center text-base 2xl:text-lg text-stone-700'>Ingrese el número y/o el tipo de documento del cliente para realizar la búsqueda en la base de datos.</p>
 
         <SearchDocForm/>
 
         <h3 className="text-center text-xl font-bold text-negro-claro uppercase py-2 border-b-4 border-gris-oscuro/30 h-fit w-11/12">
-          Resultados de la busqueda
+          Resultados de la búsqueda
         </h3>
 
         {visibleSearchResult && (

@@ -20,11 +20,15 @@ export default function OrderStepper() {
   const setActiveStep = useOrderStore((state) => state.setActiveStep);
   const resetOrder = useOrderStore((state) => state.resetOrder);
 
+  const STEP_1 = 0; 
+  const STEP_2 = 1; 
+  const STEP_3 = 2; 
+
   // Para desactivar el boton siguiente.
   useEffect(() => {
-    if (activeStep === 1) { 
+    if (activeStep === STEP_2) { 
       setIsDisabled(!(selectedClient.id !== "")); // Desactiva si no hay cliente, habilita si hay cliente.
-    } else if (activeStep === 0) {
+    } else if (activeStep === STEP_1) {
       setIsDisabled(selectedLabItems.length === 0) // deshabilita si no hay estudios seleccionados.
     }
     else {
@@ -67,14 +71,14 @@ export default function OrderStepper() {
         </div>
       ) : (
         <div className='mt-4'>
-          {activeStep === 0 && <SelectServiciesStep/>}
+          {activeStep === STEP_1 && <SelectServiciesStep/>}
 
-          {activeStep === 1 && <SelectPatientStep/> }
+          {activeStep === STEP_2 && <SelectPatientStep/> }
 
-          {activeStep === 2 && <OrderPreviewStep/>}
+          {activeStep === STEP_3 && <OrderPreviewStep/>}
 
           <div className='flex flex-col sm:flex-row gap-1 py-4'>
-            <GreyButton onClick={handleBack} disabled={activeStep === 0} sx={{ minWidth: 280}}>
+            <GreyButton onClick={handleBack} disabled={activeStep === STEP_1} sx={{ minWidth: 280}}>
               Anterior Paso
             </GreyButton>
 

@@ -22,7 +22,7 @@ export default function ClientsList() {
             ) : (
                 <>
                     <p className='text-center text-base 2xl:text-lg text-stone-700'>
-                        No se encontraron clientes con esos parametros de busqueda. Por favor, complete el formulario para registra al cliente.
+                        No se encontraron clientes con esos parametros de búsqueda. Por favor, complete el formulario para registra al cliente.
                     </p>
 
                     <ClientForm/>
