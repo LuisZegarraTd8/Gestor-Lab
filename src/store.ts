@@ -3,6 +3,7 @@ import { create } from "zustand";
 import labItemsData from "./data/lab-oct-2024.json";
 import BigNumber from "bignumber.js";
 import { GridRowSelectionModel } from "@mui/x-data-grid";
+import { loadClients } from "./services/clientService";
 
 const labItemsJson = labItemsData.map((item, index) => {
     let price = item.price.replace('$', '').replace('.', '');
@@ -65,7 +66,7 @@ const initialState: OrderState = {
     visibleSearchResult: false,
     visibleSelectedClient: false,
 
-    allClients: [],
+    allClients: loadClients(),
     foundClients: [],
     selectedClient: {
         id: '',
