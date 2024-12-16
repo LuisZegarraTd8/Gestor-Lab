@@ -21,21 +21,21 @@ export default function SelectedServiciesTable(
     { selectedLabItems }: SelectedServiciesTableParams,
 ) {
     return (
-        <>
+        <div className=' h-80 sm:h-[25rem] 2xl:h-[30rem]'>
             <TableVirtuoso
-                style={{ height: 400,  width: '100%', backgroundColor: '#f5f5f4', boxShadow: 'none'}}
+                style={{ height: '100%',  width: '100%', backgroundColor: '#f5f5f5', boxShadow: 'none'}}
                 data={selectedLabItems || []}
                 // @ts-ignore
                 components={TableComponents}
                 fixedHeaderContent={() => (
-                    <TableRow style={{ backgroundColor: '#f5f5f4', borderBottom: 2, borderColor: '' }}>
-                        <TableCell style={{ width: 90 , fontWeight: 'bold', textAlign: 'center'}}>
+                    <TableRow style={{ backgroundColor: '#f5f5f5', fontWeight: 'bold', fontSize: 15, color: '#374151' }}>
+                        <TableCell style={{ width: 90, textAlign: 'center', fontWeight: 'bold', fontSize: 15, color: '#374151' }}>
                             Abreviatura
                         </TableCell>
-                        <TableCell style={{ fontWeight: 'bold'}}>
+                        <TableCell style={{ fontWeight: 'bold', fontSize: 15, color: '#374151' }}>
                             Estudio de Laboratorio
                         </TableCell>
-                        <TableCell style={{ width: 100 , fontWeight: 'bold', textAlign: 'center'}}>
+                        <TableCell style={{ width: 100, textAlign: 'center', fontWeight: 'bold', fontSize: 15, color: '#374151' }}>
                             Precio
                         </TableCell>
                     </TableRow>
@@ -56,6 +56,6 @@ export default function SelectedServiciesTable(
                 )}
             />
 
-        </>
+        </div>
     );
 }

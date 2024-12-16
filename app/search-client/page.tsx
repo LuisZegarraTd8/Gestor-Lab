@@ -24,7 +24,7 @@ export default function SearchClient() {
         </div>
         
         <div className=' flex content-center w-1/4 mx-auto gap-6 '>
-          <BlueButton fullWidth>Nueva Busqueda</BlueButton>
+          <BlueButton fullWidth>Nueva Búsqueda</BlueButton>
         </div> 
       </div>
     </div>
