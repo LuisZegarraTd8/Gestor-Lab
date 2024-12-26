@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from 'next/image';
 import React, { useMemo } from "react";
 import BlueButton from "../buttons/BlueButton";
-import logo from '@/src/public/logo-cemevyf-2024.png';
+import logo from '@/src/public/logo-cemevyf-2024.webp';
 
 
 const MainHeader = React.memo(function MyHeader() {
@@ -19,7 +19,8 @@ const MainHeader = React.memo(function MyHeader() {
                 <div className="flex flex-row gap-2 md:gap-5">
                     <Link href="/" className="w-16 h-16 relative">
                         <Image
-                        priority fill 
+                        priority
+                        fill 
                         src={logo}
                         alt="Logo" 
                         sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" 

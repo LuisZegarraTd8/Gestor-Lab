@@ -1,5 +1,5 @@
 import {
-    DataGrid, GridColDef, GridRowSelectionModel, GridToolbar,
+    DataGrid, GridColDef, GridRowSelectionModel,
     GridToolbarContainer, GridToolbarDensitySelector, GridToolbarExport,
     GridToolbarQuickFilter
 } from '@mui/x-data-grid';
@@ -57,7 +57,7 @@ type LabTableInputParams = {
 export default function LabTableDesktop( { rowSelectionModel }: LabTableInputParams ) {
 
     const [paginationModel, setPaginationModel] = useState({
-        pageSize: 6, // Valor por defecto
+        pageSize: 5, // Valor por defecto
         page: 0,
     });
     
@@ -65,7 +65,7 @@ export default function LabTableDesktop( { rowSelectionModel }: LabTableInputPar
     const isLargeScreen = useMediaQuery('(min-width:1536px)');
 
     useEffect(() => {
-        let newPageSize = 6; // Valor por defecto
+        let newPageSize = 5; // Valor por defecto
         if (isSmallScreen) {
             newPageSize = 4;
         } else if (isLargeScreen) {
@@ -113,16 +113,14 @@ export default function LabTableDesktop( { rowSelectionModel }: LabTableInputPar
                 onRowSelectionModelChange={(ids) => {
                     const selectedIDs = new Set(ids);
                     const selectedRowData: LabItem[] = LabCalculator.getCurrentLabItems().filter(labItem => selectedIDs.has(labItem.id));
-                    useOrderStore.setState({ selectedLabItems: selectedRowData });
-                    useOrderStore.setState({ selectedRows: ids})
+                    useOrderStore.getState().saveSelectedLabItems(selectedRowData);
+                    useOrderStore.setState({ preselectedLabItems: selectedRowData, selectedRows: ids });
                 }}
-                autosizeOnMount= {true}
                 columns={columns}
                 rowSelectionModel={rowSelectionModel}
-                keepNonExistentRowsSelected
                 paginationModel={paginationModel}
                 onPaginationModelChange={setPaginationModel}
-                pageSizeOptions={[4, 5, 7, { value: -1, label: 'Todos' }]}
+                pageSizeOptions={[4, 5, 7]}
                 checkboxSelection
                 slots={{
                     toolbar: CustomToolbar

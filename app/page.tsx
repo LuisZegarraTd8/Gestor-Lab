@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from 'next/image';
-import logo from '@/src/public/logo-cemevyf-2024.png';
+import logo from '@/src/public/logo-cemevyf-2024.webp';
 
 export default function Home() {
   const navItems = [
@@ -14,7 +14,7 @@ export default function Home() {
       <div className='bg-gray-100 px-5 py-12 rounded-lg flex flex-col gap-6 h-full justify-center'>
 
         <div className='w-40 h-40 relative mx-auto'>
-          <Image fill priority src={logo} alt="Logo"
+          <Image fill src={logo} alt="Logo"
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
           />
         </div>

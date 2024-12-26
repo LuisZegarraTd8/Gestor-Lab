@@ -1,32 +1,43 @@
 'use client'
 import { Alert } from '@mui/material';
 import BlueButton from '@/components/buttons/BlueButton';
-import ClientTable from '@/components/tables/ClientTable';
 import GreyButton from '@/components/buttons/GreyButton';
 import EditClientTable from '@/components/tables/EditClientTable';
-import { useState } from 'react';
 import ClientForm from '@/components/forms/ClientForm';
 import SearchClientForm from '@/components/forms/SearchClientForm';
-import { loadClients } from '@/src/services/clientService';
+import { useOrderStore } from '@/src/store';
+import ClientFacade from '@/src/services/clientFacade';
 
-const TABLE_VIEW = 0;
-const REGISTER_VIEW = 1;
-const SEARCH_VIEW = 2;
 
 export default function SearchClient() {
-
-  const [componentView, setComponentView] = useState(TABLE_VIEW);
-
+  
+  const { showRegisterClientFormPage, showSearchClientResultPage, showSearchClientFormPage } = useOrderStore()
+  const TABLE_VIEW = useOrderStore( state => state.visibleSearchClientResultPage)
+  const REGISTER_VIEW = useOrderStore( state => state.visibleRegisterClientFormPage)
+  const SEARCH_VIEW = useOrderStore( state => state.visibleSearchClientFormPage)
+  
   const handleAddClient = () => {
-    setComponentView(REGISTER_VIEW);
+    showRegisterClientFormPage();
   };
   
   const handleSearchClient = () => {
-    setComponentView(SEARCH_VIEW);
+    showSearchClientFormPage();
   };
   
   const handleClientTable = () => {
-    setComponentView(TABLE_VIEW);
+    showSearchClientResultPage();
+  };
+  
+  const handleResetTable = async () => {
+    // Para reiniciar la tabla de clientes con API
+    const clientFacade = new ClientFacade('http://[::1]:9900');
+    const clients = await clientFacade.getClients();
+
+    useOrderStore.setState({ foundClients: clients.data });
+
+    if (clients.data.length === 0) {
+        alert('No se encontraron clientes con el documento proporcionado.');
+    }
   };
 
 
@@ -40,7 +51,7 @@ export default function SearchClient() {
 
       <div className='bg-neutral-100 w-full p-6 rounded-lg flex flex-col h-full'>
         {/* Tabla de clientes */}
-        {componentView === TABLE_VIEW &&
+        {TABLE_VIEW &&
         <>
           <div className=' flex flex-row justify-between items-end border-b-4 border-gris-oscuro/30 h-fit px-8 pb-3'>
             <h3 className="text-xl font-bold text-negro-claro uppercase">
@@ -48,7 +59,7 @@ export default function SearchClient() {
             </h3>
 
             <div className='flex gap-4 flex-wrap'>
-              <BlueButton onClick={() => loadClients()}>Limpiar Filtros</BlueButton>
+              <BlueButton onClick={handleResetTable}>Limpiar Filtros</BlueButton>
               <GreyButton onClick={handleAddClient}>Agregar Cliente</GreyButton>
               <GreyButton onClick={handleSearchClient}>Buscar Cliente</GreyButton>
             </div>
@@ -61,7 +72,7 @@ export default function SearchClient() {
         }
 
         {/* Formulario para agregar un cliente */}
-        {componentView === REGISTER_VIEW &&
+        {REGISTER_VIEW &&
         <>
           <div className=' flex flex-row justify-between items-end border-b-4 border-gris-oscuro/30 h-fit px-8 pb-3'>
             <h3 className="text-xl font-bold text-negro-claro uppercase">
@@ -80,7 +91,7 @@ export default function SearchClient() {
         }
         
         {/* Formulario para buscar un cliente */}
-        {componentView === SEARCH_VIEW &&
+        {SEARCH_VIEW &&
         <>
           <div className=' flex flex-row justify-between items-end border-b-4 border-gris-oscuro/30 h-fit px-8 pb-3'>
             <h3 className="text-xl font-bold text-negro-claro uppercase">

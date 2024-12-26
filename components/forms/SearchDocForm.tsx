@@ -7,26 +7,30 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SearchDocFormSchema } from "@/src/schema";
 import { SearchDocFormData } from "@/src/types";
 import { useOrderStore } from "@/src/store";
-import { loadClients, filterDocClients } from "../../src/services/clientService";
+import ClientFacade from "@/src/services/clientFacade";
 
 
 export default function SearchDocForm() {
 
-    const { showSearchResult } = useOrderStore( )
+    const { showSearchClientResultStep } = useOrderStore()
 
     const { register, control, handleSubmit, formState: { errors} } = useForm<SearchDocFormData>({
         resolver: zodResolver(SearchDocFormSchema)
     });
     
     const onSubmit: SubmitHandler<SearchDocFormData> = async (data) => {
-        try {
-            const allClients = await loadClients(); // Llamar a loadClients para cargar los clientes
-            const foundClients = filterDocClients(allClients, data); // Llamar a filterClients para filtrar
-            useOrderStore.setState({ foundClients });
-        } catch (error) {
-            console.error("Error al filtrar clientes:", error); 
-        } finally {
-            showSearchResult();
+        // Busqueda de cliente por Id con API
+        const clientFacade = new ClientFacade('http://[::1]:9900');
+        const clients= await clientFacade.getClientsByDoc({
+            personIdType: data.personIdType,
+            personId: data.personId
+        });
+
+        useOrderStore.setState({ foundClients: clients.data });
+        showSearchClientResultStep();
+        
+        if (clients.data.length === 0) {
+            alert('No se encontraron clientes con el documento proporcionado.');
         }
     };
     

@@ -8,10 +8,14 @@ import {
 import BlueButton from "@/components/buttons/BlueButton";
 import { docTypes } from '@/src/data';
 import GreyButton from '../buttons/GreyButton';
+import ClientFacade from '@/src/services/clientFacade';
+import { useOrderStore } from '@/src/store';
 
 
 
 export default function SearchClientForm() {
+
+    const { showSearchClientResultPage } = useOrderStore()
     const [searchType, setSearchType] = useState('id');
     const [searchValues, setSearchValues] = useState({
         id: '',
@@ -44,24 +48,59 @@ export default function SearchClientForm() {
         });
       };
 
-    const handleSearchForID = () => {
-        // Aquí puedes agregar la lógica para realizar la búsqueda
-        console.log('Buscando por ID:', searchValues.id);
+    const handleSearchForID = async () => {
+        // Busqueda de cliente por ID con API
+        const clientFacade = new ClientFacade('http://[::1]:9900');
+        const client = await clientFacade.getClientById(searchValues.id);
 
-    };
-    const handleSearchForDoc = () => {
-        // Aquí puedes agregar la lógica para realizar la búsqueda
-        console.log('Buscando por Documento:', searchValues.personIdType, searchValues.personId);
-    };
-
-    const handleSearchForFisrtName = () => {
-        // Aquí puedes agregar la lógica para realizar la búsqueda
-        console.log('Buscando por Nombre:', searchValues.firstName);
+        if (client) {
+            useOrderStore.setState({ foundClients: [client] });
+            showSearchClientResultPage();
+        } else {
+            alert('No se encontraron clientes con el ID proporcionado.');
+        }
     };
 
-    const handleSearchForLastName = () => {
-        // Aquí puedes agregar la lógica para realizar la búsqueda
-        console.log('Buscando por Apellido', searchValues.lastName);
+    const handleSearchForDoc = async () => {
+        // Busqueda de cliente por Documento con API
+        const clientFacade = new ClientFacade('http://[::1]:9900');
+        const clients= await clientFacade.getClientsByDoc({
+            personIdType: searchValues.personIdType,
+            personId: searchValues.personId
+        });
+
+        useOrderStore.setState({ foundClients: clients.data });
+        showSearchClientResultPage();
+
+        if (clients.data.length === 0) {
+            alert('No se encontraron clientes con el documento proporcionado.');
+        }
+    };
+
+    const handleSearchForFisrtName = async () => {
+        // Busqueda de cliente por Nombre con API
+        const clientFacade = new ClientFacade('http://[::1]:9900');
+        const clients= await clientFacade.getClientsByFirstName(searchValues.firstName);
+
+        useOrderStore.setState({ foundClients: clients.data });
+        showSearchClientResultPage();
+
+        if (clients.data.length === 0) {
+            alert('No se encontraron clientes con el nombre proporcionado.');
+        }
+    };
+
+    const handleSearchForLastName = async () => {
+        // Busqueda de cliente por Apellido con API
+        const clientFacade = new ClientFacade('http://[::1]:9900');
+        const clients= await clientFacade.getClientsByLastName(searchValues.lastName);
+
+        useOrderStore.setState({ foundClients: clients.data });
+        showSearchClientResultPage();
+
+        if (clients.data.length === 0) {
+            alert('No se encontraron clientes con el apellido proporcionado.');
+        }
     };
 
     return (

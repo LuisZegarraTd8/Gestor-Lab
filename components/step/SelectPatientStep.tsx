@@ -8,7 +8,7 @@ import ClientsList from "../list/ClientsList";
 export default function SelectPatientStep() {
   // Store de Zustand
   const selectedClient = useOrderStore( (state) => state.selectedClient )
-  const { visibleSearchResult, visibleSelectedClient } = useOrderStore()
+  const { visibleSearchClientResultStep } = useOrderStore()
 
   return (
     <div className="flex flex-col gap-4">
@@ -32,7 +32,7 @@ export default function SelectPatientStep() {
           Resultados de la búsqueda
         </h3>
 
-        {visibleSearchResult && (
+        {visibleSearchClientResultStep && (
           <ClientsList/>
         )}
       </div>

@@ -7,22 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ClientFormSchema } from "@/src/schema";
 import { Client, ClientFormData } from "@/src/types";
 import { useOrderStore } from "@/src/store";
+import ClientFacade from "@/src/services/clientFacade";
 
 
-function generateUniqueId(clients: Client[]): string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const idLength = 8;
-  
-    do {
-      result = '';
-      for (let i = 0; i < idLength; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
-      }
-    } while (clients.some((client) => client.id === result));
-  
-    return result;
-  }
 
 export default function ClientForm() {
 
@@ -33,22 +20,34 @@ export default function ClientForm() {
     });
     
 
-    const onSubmit: SubmitHandler<ClientFormData> = (data) => {
-        const newId = generateUniqueId(allClients)
+    const onSubmit: SubmitHandler<ClientFormData> = async (data) => {
 
-        const selectedClient = {
-            id: newId, 
+        const newClient = {
+            id: '', 
             firstName: data.firstName,
             lastName: data.lastName,
             personIdType: data.personIdType,
             personId: data.personId,
-            externalId: "", 
-            booklyId: "",
+            externalId: '', 
+            booklyId: '',
             email: data.email,
             phoneNumber: data.phoneNumber,
         };
- 
-        useOrderStore.setState({ selectedClient });
+
+        // Prueba de registro con API
+        const clientFacade = new ClientFacade('http://[::1]:9900');
+        const clientId = await clientFacade.createClient(newClient);
+        
+        if (clientId) {
+            alert(`Cliente creado con ID: ${clientId}`);
+            const selectedClient = await clientFacade.getClientById(clientId);
+            if (selectedClient) {
+                useOrderStore.setState({ selectedClient });
+                console.log('Cliente creado:', selectedClient);
+            } else {
+                alert('Error al obtener el cliente');
+            }
+        }
     };
 
     return (
