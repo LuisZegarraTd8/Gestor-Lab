@@ -9,7 +9,7 @@ import BlueButton from "../buttons/BlueButton"
 
 export default function OrderPreviewStep() {
 
-    const selectedItems = useOrderStore( (state) => state.selectedLabItems )
+    const selectedItems = useOrderStore( (state) => state.preselectedLabItems )
     const totalAmountOrder  = useOrderStore( (state) => state.totalAmountOrder )
     const selectedClient = useOrderStore( (state) => state.selectedClient )
     const setActiveStep = useOrderStore((state) => state.setActiveStep);

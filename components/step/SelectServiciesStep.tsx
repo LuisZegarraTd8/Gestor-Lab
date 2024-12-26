@@ -11,7 +11,7 @@ import { useOrderStore } from "@/src/store";
 
 export default function SelectServiciesStep() {
     // Store de Zustand
-    const selectedItems = useOrderStore((state) => state.selectedLabItems )
+    const selectedItems = useOrderStore((state) => state.preselectedLabItems )
     const totalAmountOrder  = useOrderStore((state) => state.totalAmountOrder )
     const selectedRowModel  = useOrderStore((state) => state.selectedRows )
     const total = LabCalculator.getTotalAmount(selectedItems);
@@ -31,7 +31,8 @@ export default function SelectServiciesStep() {
 
     const deleteSelectedLabItem = (itemToDelete: LabItem) => {
         useOrderStore.setState((state) => ({
-            selectedLabItems: state.selectedLabItems.filter(labItem => labItem.id !== itemToDelete.id)
+            preselectedLabItems: state.preselectedLabItems.filter(labItem => labItem.id !== itemToDelete.id),
+            selectedLabItems: state.selectedLabItems.filter(labItem => labItem.code !== itemToDelete.code),
         }));
     };
 

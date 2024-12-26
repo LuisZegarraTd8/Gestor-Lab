@@ -32,12 +32,13 @@ export default function EditClientTable( ) {
 
     const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
     const allClients = useOrderStore((state) => state.allClients);
+    const foundClients = useOrderStore((state) => state.foundClients);
     const [paginationModel, setPaginationModel] = useState({
         pageSize: 6, // Valor por defecto
         page: 0,
     });
 
-    const rows = allClients.map(client => ({
+    const rows = foundClients.map(client => ({
         ...client,
         id: client.id,
         personIdType: `${getDocTypeAbbr(client.personIdType)}`,
@@ -48,7 +49,7 @@ export default function EditClientTable( ) {
     const isLargeScreen = useMediaQuery('(min-width:1536px)');
 
     useEffect(() => {
-        let newPageSize = 6; // Valor por defecto
+        let newPageSize = 5; // Valor por defecto
         if (isSmallScreen) {
             newPageSize = 4;
         } else if (isLargeScreen) {
