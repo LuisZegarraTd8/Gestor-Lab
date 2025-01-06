@@ -6,7 +6,8 @@ import EditClientTable from '@/components/tables/EditClientTable';
 import ClientForm from '@/components/forms/ClientForm';
 import SearchClientForm from '@/components/forms/SearchClientForm';
 import { useOrderStore } from '@/src/store';
-import ClientFacade from '@/src/services/clientFacade';
+import ClientFacade from '@/src/services/client-facade';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 export default function SearchClient() {
@@ -33,10 +34,15 @@ export default function SearchClient() {
     const clientFacade = new ClientFacade('http://[::1]:9900');
     const clients = await clientFacade.getClients();
 
-    useOrderStore.setState({ foundClients: clients.data });
-
-    if (clients.data.length === 0) {
-        alert('No se encontraron clientes con el documento proporcionado.');
+    if (typeof clients === 'string') {
+        toast.error('Error al buscar el cliente: ' + clients);
+    } else {
+        if (clients.data.length === 0) {
+            toast.warn('No se encontraron clientes para mostrar.');
+        } else {
+            toast.success(`Se encontraron ${clients.data.length} clientes.`);
+        }
+        useOrderStore.setState({ foundClients: clients.data });
     }
   };
 
@@ -109,6 +115,7 @@ export default function SearchClient() {
         </>
         }
       </div>
+      <ToastContainer/>
     </div>
   )
 }

@@ -7,76 +7,90 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SearchDocFormSchema } from "@/src/schema";
 import { SearchDocFormData } from "@/src/types";
 import { useOrderStore } from "@/src/store";
-import ClientFacade from "@/src/services/clientFacade";
+import ClientFacade from "@/src/services/client-facade";
+import { toast, ToastContainer } from "react-toastify";
 
 
 export default function SearchDocForm() {
 
     const { showSearchClientResultStep } = useOrderStore()
-
+    
     const { register, control, handleSubmit, formState: { errors} } = useForm<SearchDocFormData>({
         resolver: zodResolver(SearchDocFormSchema)
     });
     
     const onSubmit: SubmitHandler<SearchDocFormData> = async (data) => {
         // Busqueda de cliente por Id con API
-        const clientFacade = new ClientFacade('http://[::1]:9900');
-        const clients= await clientFacade.getClientsByDoc({
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        if (!apiUrl) {
+            toast.error('API URL no está definida.');
+            return;
+        }
+        const clientFacade = new ClientFacade(apiUrl);
+        const clients = await clientFacade.getClientsByDoc({
             personIdType: data.personIdType,
             personId: data.personId
         });
 
-        useOrderStore.setState({ foundClients: clients.data });
-        showSearchClientResultStep();
-        
-        if (clients.data.length === 0) {
-            alert('No se encontraron clientes con el documento proporcionado.');
+        if (typeof clients === 'string') {
+            toast.error('Error al buscar el cliente: ' + clients);
+        } else {
+            if (clients.data.length === 0) {
+                toast.warn('No se encontraron clientes con esos datos.');
+            } else {
+                toast.success(`Se encontraron ${clients.data.length} clientes.`);
+            }
+            useOrderStore.setState({ foundClients: clients.data });
+            showSearchClientResultStep();
         }
     };
     
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} 
-            className="max-w-2xl w-full grid grid-cols-1 sm:grid-cols-12 items-start gap-x-4">
-            {/* Tipo y Número de Documento */}
-            <div className="sm:col-span-3">
-                <Controller
-                    name="personIdType"
-                    control={control}
-                    defaultValue={docTypes.length > 0 ? docTypes[0].value : ''}
-                    render={({ field }) => (
-                        <TextField
+        <>
+            <form onSubmit={handleSubmit(onSubmit)} 
+                className="max-w-2xl w-full grid grid-cols-1 sm:grid-cols-12 items-start gap-x-4">
+                {/* Tipo y Número de Documento */}
+                <div className="sm:col-span-3">
+                    <Controller
+                        name="personIdType"
+                        control={control}
+                        defaultValue={docTypes.length > 0 ? docTypes[0].value : ''}
+                        render={({ field }) => (
+                            <TextField
                             {...field}
                             select
                             label="Tipo de Documento"
                             fullWidth
                             margin="normal"
-                        >
-                            {docTypes.map((type) => (
-                                <MenuItem key={type.name} value={type.value}>{type.abbr}</MenuItem>
-                            ))}
-                            <MenuItem key='No Especificar' value=' '>No Especificar</MenuItem>
-                        </TextField>
-                    )}
-                />
-            </div>
+                            >
+                                {docTypes.map((type) => (
+                                    <MenuItem key={type.name} value={type.value}>{type.abbr}</MenuItem>
+                                ))}
+                                <MenuItem key='No Especificar' value=' '>No Especificar</MenuItem>
+                            </TextField>
+                        )}
+                        />
+                </div>
 
-            <div className="sm:col-span-5">
-                <TextField
-                    {...register('personId')}
-                    label="Número de Documento"
-                    fullWidth
-                    margin="normal"
-                    error={!!errors.personId}
-                    helperText={errors.personId?.message}
-                />
-            </div>
+                <div className="sm:col-span-5">
+                    <TextField
+                        {...register('personId')}
+                        label="Número de Documento"
+                        fullWidth
+                        margin="normal"
+                        error={!!errors.personId}
+                        helperText={errors.personId?.message}
+                        />
+                </div>
 
-            {/* Boton de Búsqueda */}
-            <div className="col-span-full sm:col-span-4 pt-5">
-                <BlueButton type="submit" fullWidth >Buscar Cliente</BlueButton>
-            </div>
-        </form>
-
+                {/* Boton de Búsqueda */}
+                <div className="col-span-full sm:col-span-4 pt-5">
+                    <BlueButton type="submit" fullWidth >Buscar Cliente</BlueButton>
+                </div>
+            </form>
+            
+            <ToastContainer/>
+        </>
     )
 }
