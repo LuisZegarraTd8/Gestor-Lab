@@ -8,8 +8,9 @@ import {
 import BlueButton from "@/components/buttons/BlueButton";
 import { docTypes } from '@/src/data';
 import GreyButton from '../buttons/GreyButton';
-import ClientFacade from '@/src/services/clientFacade';
+import ClientFacade from '@/src/services/client-facade';
 import { useOrderStore } from '@/src/store';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 
@@ -53,12 +54,16 @@ export default function SearchClientForm() {
         const clientFacade = new ClientFacade('http://[::1]:9900');
         const client = await clientFacade.getClientById(searchValues.id);
 
-        if (client) {
-            useOrderStore.setState({ foundClients: [client] });
-            showSearchClientResultPage();
+        if (typeof client !== 'string') {
+            if (client.id === '') {
+                toast.warn('No se encontraron clientes con el ID proporcionado.');
+            } else {
+                useOrderStore.setState({ foundClients: [client] });
+                showSearchClientResultPage();
+            }
         } else {
-            alert('No se encontraron clientes con el ID proporcionado.');
-        }
+            toast.error('Error al buscar el cliente: ' + client);
+        };
     };
 
     const handleSearchForDoc = async () => {
@@ -69,12 +74,16 @@ export default function SearchClientForm() {
             personId: searchValues.personId
         });
 
-        useOrderStore.setState({ foundClients: clients.data });
-        showSearchClientResultPage();
-
-        if (clients.data.length === 0) {
-            alert('No se encontraron clientes con el documento proporcionado.');
-        }
+        if (typeof clients !== 'string') {
+            if (clients.data.length === 0) {
+                toast.warn('No se encontraron clientes con el documento proporcionado.');
+            } else {
+                useOrderStore.setState({ foundClients: clients.data });
+                showSearchClientResultPage();
+            }
+        } else {
+            toast.error('Error al buscar el cliente: ' + clients);
+        };
     };
 
     const handleSearchForFisrtName = async () => {
@@ -82,12 +91,16 @@ export default function SearchClientForm() {
         const clientFacade = new ClientFacade('http://[::1]:9900');
         const clients= await clientFacade.getClientsByFirstName(searchValues.firstName);
 
-        useOrderStore.setState({ foundClients: clients.data });
-        showSearchClientResultPage();
-
-        if (clients.data.length === 0) {
-            alert('No se encontraron clientes con el nombre proporcionado.');
-        }
+        if (typeof clients !== 'string') {
+            if (clients.data.length === 0) {
+                toast.warn('No se encontraron clientes con el nombre proporcionado.');
+            } else {
+                useOrderStore.setState({ foundClients: clients.data });
+                showSearchClientResultPage();
+            }
+        } else {
+            toast.error('Error al buscar el cliente: ' + clients);
+        };
     };
 
     const handleSearchForLastName = async () => {
@@ -95,12 +108,16 @@ export default function SearchClientForm() {
         const clientFacade = new ClientFacade('http://[::1]:9900');
         const clients= await clientFacade.getClientsByLastName(searchValues.lastName);
 
-        useOrderStore.setState({ foundClients: clients.data });
-        showSearchClientResultPage();
-
-        if (clients.data.length === 0) {
-            alert('No se encontraron clientes con el apellido proporcionado.');
-        }
+        if (typeof clients !== 'string') {
+            if (clients.data.length === 0) {
+                toast.warn('No se encontraron clientes con el apellido proporcionado.');
+            } else {
+                useOrderStore.setState({ foundClients: clients.data });
+                showSearchClientResultPage();
+            }
+        } else {
+            toast.error('Error al buscar el cliente: ' + clients);
+        };
     };
 
     return (
@@ -218,9 +235,12 @@ export default function SearchClientForm() {
                     </RadioGroup>
                 </FormControl>
             </div>
-           <div className='mx-auto w-72'>
-                <GreyButton onClick={handleClearForm} fullWidth>Borrar Campos</GreyButton>
-           </div>
+            
+            <div className='mx-auto w-72'>
+                    <GreyButton onClick={handleClearForm} fullWidth>Borrar Campos</GreyButton>
+            </div>
+
+            <ToastContainer/>
         </div>
     );
 }

@@ -5,7 +5,12 @@ interface ClientSearchResponse {
     data: Client[];
     meta: reponseMeta;
 }
-  
+
+interface CreateClientResponse { 
+    success: boolean;
+    response: string 
+} 
+
 
 export default class ClientFacade {
     private apiUrl: string;
@@ -16,7 +21,7 @@ export default class ClientFacade {
 
 
     // Funcion para buscar un cliente por ID
-    async getClientById(id: string): Promise<Client | null> {
+    async getClientById(id: string): Promise<Client | string> {
         try {
             const response = await fetch(`${this.apiUrl}/clients/${id}`, {
                 method: "GET",
@@ -24,17 +29,14 @@ export default class ClientFacade {
             })
 
             if (!response.ok) {
-                console.error(`Error al obtener el cliente: ${response.status} ${response.statusText}`);
-                return null;
+                throw new Error(`Error al obtener el cliente: ${response.status} ${response.statusText}`)
             }
 
             const data = await response.json() as Client;
-            console.log('Cliente:', data);
             return data;
 
         } catch (error) {
-            console.error(`Error al obtener el cliente:: ${error}`);
-            return null;
+            return `Error al obtener el cliente:: ${error}`;
         }
     }
 
@@ -43,7 +45,7 @@ export default class ClientFacade {
     async getClients(
         page: number = 1,
         pageSize: number = 10
-    ): Promise<ClientSearchResponse> {
+    ): Promise<ClientSearchResponse | string> {
 
         try {
             const response = await fetch(
@@ -63,13 +65,7 @@ export default class ClientFacade {
             return { data, meta };
             
         } catch (error) {
-            alert(`Error al obtener los clientes: ${error}`);
-            const meta = {
-                hasNextPage: false, hasPreviousPage: false,
-                itemCount: 0, page: page.toString(),
-                pageCount: 0, take: pageSize.toString()
-            };
-            return { data: [], meta };
+            return `Error al obtener los clientes: ${error}`;
         }
     };
 
@@ -79,7 +75,7 @@ export default class ClientFacade {
         dataForm: SearchDocFormData,
         page: number = 1,
         pageSize: number = 10
-    ): Promise<ClientSearchResponse> {
+    ): Promise<ClientSearchResponse | string> {
 
         let queryParams = '';
 
@@ -109,13 +105,7 @@ export default class ClientFacade {
             return { data, meta };
             
         } catch (error) {
-            alert(`Error al obtener los clientes: ${error}`);
-            const meta = {
-                hasNextPage: false, hasPreviousPage: false,
-                itemCount: 0, page: page.toString(),
-                pageCount: 0, take: pageSize.toString()
-            };
-            return { data: [], meta };
+            return `Error al obtener los clientes: ${error}`;
         }
     };
 
@@ -125,7 +115,7 @@ export default class ClientFacade {
         firstName: string,
         page: number = 1,
         pageSize: number = 10
-    ): Promise<ClientSearchResponse> {
+    ): Promise<ClientSearchResponse | string> {
 
         let queryParams = '';
 
@@ -152,13 +142,7 @@ export default class ClientFacade {
             return { data, meta };
             
         } catch (error) {
-            alert(`Error al obtener los clientes: ${error}`);
-            const meta = {
-                hasNextPage: false, hasPreviousPage: false,
-                itemCount: 0, page: page.toString(),
-                pageCount: 0, take: pageSize.toString()
-            };
-            return { data: [], meta };
+            return `Error al obtener los clientes: ${error}`;
         }
     };
 
@@ -168,7 +152,7 @@ export default class ClientFacade {
         lastName: string,
         page: number = 1,
         pageSize: number = 10
-    ): Promise<ClientSearchResponse> {
+    ): Promise<ClientSearchResponse | string> {
 
         let queryParams = '';
 
@@ -195,19 +179,13 @@ export default class ClientFacade {
             return { data, meta };
             
         } catch (error) {
-            alert(`Error al obtener los clientes: ${error}`);
-            const meta = {
-                hasNextPage: false, hasPreviousPage: false,
-                itemCount: 0, page: page.toString(),
-                pageCount: 0, take: pageSize.toString()
-            };
-            return { data: [], meta };
+            return `Error al obtener los clientes: ${error}`;
         }
     };
     
     
     // Funcion para agregar un nuevo cliente
-    async createClient(clientData: Client): Promise<string | null> {
+    async createClient(clientData: Client): Promise<CreateClientResponse> {
         try {
             // Crear el cliente
             const raw = JSON.stringify(clientData);
@@ -228,11 +206,10 @@ export default class ClientFacade {
 
             const data = await response.json();
 
-            return data.id;
+            return { success: true, response: data.id };
 
         } catch (error) {
-            alert(`Error al crear el cliente: ${error}`);
-            return null;
+            return { success: false, response: `Error al crear el cliente: ${error}` };
         }
     };
 };
