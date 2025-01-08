@@ -6,7 +6,7 @@ import {
 import { Box, useMediaQuery } from '@mui/material';
 import { useOrderStore } from "@/src/store";
 import { useEffect, useState } from 'react';
-import { getDocTypeAbbr, loadClients } from '@/src/services/clientService';
+import { getDocTypeAbbr, loadClients } from '@/src/services/client-service';
 
 function CustomToolbar() {
     return (

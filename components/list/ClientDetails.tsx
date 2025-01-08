@@ -1,7 +1,7 @@
 import { Client } from "@/src/types"
 import { useOrderStore } from "@/src/store"
 import BlueButton from "../buttons/BlueButton"
-import { getDocTypeAbbr } from "@/src/services/clientService"
+import { getDocTypeAbbr } from "@/src/services/client-service"
 
 
 type ClientDetailsProps = {

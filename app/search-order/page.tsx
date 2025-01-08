@@ -3,6 +3,7 @@ import HeaderOrder from '@/components/tables/HeaderOrder';
 import TableOrder from '@/components/tables/TableOrder';
 import { Alert } from '@mui/material';
 import BlueButton from '@/components/buttons/BlueButton';
+import EditOrderTable from '@/components/tables/EditOrderTable';
 
 
 export default function SearchOrder() {
@@ -16,12 +17,13 @@ export default function SearchOrder() {
         </Alert>
       </div>
 
-      <div className='bg-gris-muy-claro w-full px-5 py-8 rounded-lg flex flex-col gap-6 h-full'>
+      <div className='bg-neutral-100 w-full px-5 py-8 rounded-lg flex flex-col gap-6 h-full'>
         
         <div className='flex flex-col gap-6 divide-y-[3px] divide-gris-oscuro/30'>
           <HeaderOrder/>
           <div className='pt-4 px-5'>
-            <TableOrder/>
+            {/* <TableOrder/> */}
+            <EditOrderTable/>
           </div>
         </div>
         

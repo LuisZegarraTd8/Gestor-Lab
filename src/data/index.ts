@@ -9,9 +9,9 @@ export const docTypes : DocTypes[] = [
     { abbr: 'Otros', name:'Otro tipo de Documento', value:'other' },
 ]
 
-export const orderStatus : OrderStatus[] = [
-    { name: 'Cotizado', value: 1 },
-    { name: 'Ejecutado', value: 2 },
-    { name: 'Resultados Pendientes', value: 3 },
-    { name: 'Resultados Realizados', value: 4 },
+export const orderStatus: OrderStatus[] = [
+    { name: 'Cotizado', value: 'quoted' },
+    { name: 'Ejecutado', value: 'executed' },
+    { name: 'Resultados Pendientes', value: 'pending_results' },
+    { name: 'Resultados Realizados', value: 'results_done' },
 ]

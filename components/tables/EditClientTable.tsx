@@ -6,7 +6,7 @@ import {
 import { Box, useMediaQuery } from '@mui/material';
 import { useOrderStore } from "@/src/store";
 import { useEffect, useState } from 'react';
-import { getDocTypeAbbr } from '@/src/services/clientService';
+import { getDocTypeAbbr } from '@/src/services/client-service';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';

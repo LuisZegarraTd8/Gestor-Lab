@@ -1,9 +1,9 @@
-import { Client, LabItem, SelectedLabItem } from "@/src/types";
+import { Client, LabItem, Order, SelectedLabItem } from "@/src/types";
 import { create } from "zustand";
 import labItemsData from "./data/lab-oct-2024.json";
 import BigNumber from "bignumber.js";
 import { GridRowSelectionModel } from "@mui/x-data-grid";
-import { loadClients } from "./services/clientService";
+import { loadClients } from "./services/client-service";
 
 const labItemsJson = labItemsData.map((item, index) => {
     let price = item.price.replace('$', '').replace('.', '');
@@ -36,6 +36,10 @@ interface OrderState {
     allClients: Client[];
     foundClients: Client[];
     selectedClient: Client;
+
+    allOrders: Order[];
+    selectedOrder: Order['id']
+    selectedOrders: Order['id'][]
 }
 
 interface OrderActions {
@@ -85,6 +89,10 @@ const initialState: OrderState = {
         email: '',
         phoneNumber: '',
     },
+
+    allOrders: [],
+    selectedOrder: '',
+    selectedOrders: [],
   }
 
 export const useOrderStore = create<OrderState & OrderActions>((set) => ({

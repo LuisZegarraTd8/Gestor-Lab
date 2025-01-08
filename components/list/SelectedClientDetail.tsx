@@ -1,6 +1,6 @@
 import { Client } from "@/src/types"
 import ClientDetailItem from "./ClientDetailItem"
-import { getDocTypeAbbr } from "@/src/services/clientService"
+import { getDocTypeAbbr } from "@/src/services/client-service"
 
 type ClientDetailsProps = {
     client: Client

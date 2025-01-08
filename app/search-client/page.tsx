@@ -7,7 +7,7 @@ import ClientForm from '@/components/forms/ClientForm';
 import SearchClientForm from '@/components/forms/SearchClientForm';
 import { useOrderStore } from '@/src/store';
 import ClientFacade from '@/src/services/client-facade';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 export default function SearchClient() {
@@ -31,7 +31,7 @@ export default function SearchClient() {
   
   const handleResetTable = async () => {
     // Para reiniciar la tabla de clientes con API
-    const clientFacade = new ClientFacade('http://[::1]:9900');
+    const clientFacade = new ClientFacade();
     const clients = await clientFacade.getClients();
 
     if (typeof clients === 'string') {
@@ -115,7 +115,7 @@ export default function SearchClient() {
         </>
         }
       </div>
-      <ToastContainer/>
+
     </div>
   )
 }

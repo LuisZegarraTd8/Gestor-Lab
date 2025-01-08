@@ -15,8 +15,8 @@ interface CreateClientResponse {
 export default class ClientFacade {
     private apiUrl: string;
   
-    constructor(apiUrl: string) {
-        this.apiUrl = apiUrl;
+    constructor() {
+        this.apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     }
 
 

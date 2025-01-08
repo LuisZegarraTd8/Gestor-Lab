@@ -10,7 +10,7 @@ import { docTypes } from '@/src/data';
 import GreyButton from '../buttons/GreyButton';
 import ClientFacade from '@/src/services/client-facade';
 import { useOrderStore } from '@/src/store';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 
@@ -51,7 +51,7 @@ export default function SearchClientForm() {
 
     const handleSearchForID = async () => {
         // Busqueda de cliente por ID con API
-        const clientFacade = new ClientFacade('http://[::1]:9900');
+        const clientFacade = new ClientFacade();
         const client = await clientFacade.getClientById(searchValues.id);
 
         if (typeof client !== 'string') {
@@ -68,7 +68,7 @@ export default function SearchClientForm() {
 
     const handleSearchForDoc = async () => {
         // Busqueda de cliente por Documento con API
-        const clientFacade = new ClientFacade('http://[::1]:9900');
+        const clientFacade = new ClientFacade();
         const clients= await clientFacade.getClientsByDoc({
             personIdType: searchValues.personIdType,
             personId: searchValues.personId
@@ -88,7 +88,7 @@ export default function SearchClientForm() {
 
     const handleSearchForFisrtName = async () => {
         // Busqueda de cliente por Nombre con API
-        const clientFacade = new ClientFacade('http://[::1]:9900');
+        const clientFacade = new ClientFacade();
         const clients= await clientFacade.getClientsByFirstName(searchValues.firstName);
 
         if (typeof clients !== 'string') {
@@ -105,7 +105,7 @@ export default function SearchClientForm() {
 
     const handleSearchForLastName = async () => {
         // Busqueda de cliente por Apellido con API
-        const clientFacade = new ClientFacade('http://[::1]:9900');
+        const clientFacade = new ClientFacade();
         const clients= await clientFacade.getClientsByLastName(searchValues.lastName);
 
         if (typeof clients !== 'string') {
@@ -239,8 +239,6 @@ export default function SearchClientForm() {
             <div className='mx-auto w-72'>
                     <GreyButton onClick={handleClearForm} fullWidth>Borrar Campos</GreyButton>
             </div>
-
-            <ToastContainer/>
         </div>
     );
 }

@@ -29,7 +29,7 @@ export const DocTypeSchema = z.object({
 
 export const OrderStatusSchema = z.object({
     name: z.string(),
-    value: z.number()
+    value: z.string()
 })
 
 export const SearchDocFormSchema = z.object({
@@ -69,10 +69,23 @@ export const SelectedLabItemSchema = z.object({
     itemCount: z.number(),
 })
 
-export const HealthOrderSchema = z.object({
-    id: z.string(),
+export const ItemsOrder = SelectedLabItemSchema.extend({
+    totalPrice: z.number()
+})
+
+export const NewHealthOrderSchema = z.object({
     clientId: z.string(),
     totalAmount: z.string(),
     currency: z.string(),
-    items: z.array(LabItemSchema)
+    quotationItems: z.array(SelectedLabItemSchema)
+})
+
+export const HealthOrderSchema = z.object({
+    createdAt: z.string(),
+    currency: z.string(),
+    id: z.string(),
+    items: z.array(ItemsOrder),
+    sendMail: z.boolean(),
+    status: z.string(),
+    totalAmount: z.number(),
 })

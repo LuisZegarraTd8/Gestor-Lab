@@ -1,5 +1,7 @@
 import { z } from "zod";
-import { ClientFormSchema, ClientSchema,DocTypeSchema,HealthOrderSchema, LabItemSchema, OrderStatusSchema, SearchDocFormSchema, SelectedLabItemSchema } from "@/src/schema";
+import { ClientFormSchema, ClientSchema,DocTypeSchema, NewHealthOrderSchema, 
+    HealthOrderSchema, LabItemSchema, OrderStatusSchema, SearchDocFormSchema, 
+    SelectedLabItemSchema } from "@/src/schema";
 
 export type DocTypes = z.infer<typeof DocTypeSchema>
 
@@ -15,6 +17,8 @@ export type LabItem = z.infer<typeof LabItemSchema>
 
 export type SelectedLabItem = z.infer<typeof SelectedLabItemSchema>
 
+export type NewHealthOrder = z.infer<typeof NewHealthOrderSchema>
+
 export type HealthOrder = z.infer<typeof HealthOrderSchema>
 
 export type reponseMeta = {
@@ -25,3 +29,16 @@ export type reponseMeta = {
     hasPreviousPage: boolean;
     hasNextPage: boolean;
 }
+
+export type Order = {
+    id: string;
+    currency: string;
+    totalAmount: string;
+    createdAt: string;
+    status: string;
+  }
+  
+  export type OrdersResponse = {
+    data: Order[];
+    meta: reponseMeta;
+  }
