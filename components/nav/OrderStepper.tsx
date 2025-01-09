@@ -35,6 +35,10 @@ export default function OrderStepper() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAddFileDialogOpen, setIsAddFileDialogOpen] = useState(false);
 
+  const STEP_1 = 0; 
+  const STEP_2 = 1; 
+  const STEP_3 = 2; 
+
   // Para desactivar el boton siguiente.
   useEffect(() => {
     if (activeStep === STEP_2) {
