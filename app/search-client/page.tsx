@@ -66,8 +66,8 @@ export default function SearchClient() {
 
             <div className='flex gap-4 flex-wrap'>
               <BlueButton onClick={handleResetTable}>Limpiar Filtros</BlueButton>
-              <GreyButton onClick={handleAddClient}>Agregar Cliente</GreyButton>
-              <GreyButton onClick={handleSearchClient}>Buscar Cliente</GreyButton>
+              <BlueButton onClick={handleAddClient}>Agregar Cliente</BlueButton>
+              <BlueButton onClick={handleSearchClient}>Buscar Cliente</BlueButton>
             </div>
           </div>
           <div className='p-3'>
@@ -86,7 +86,7 @@ export default function SearchClient() {
             </h3>
 
             <div className='flex gap-4'>
-              <GreyButton onClick={handleSearchClient}>Buscar Cliente</GreyButton>
+              <BlueButton onClick={handleSearchClient}>Buscar Cliente</BlueButton>
               <BlueButton onClick={handleClientTable}>Volver a la tabla</BlueButton>
             </div>
           </div>
@@ -105,7 +105,7 @@ export default function SearchClient() {
             </h3>
 
             <div className='flex gap-4'>
-              <GreyButton onClick={handleAddClient}>Agregar Cliente</GreyButton>
+              <BlueButton onClick={handleAddClient}>Agregar Cliente</BlueButton>
               <BlueButton onClick={handleClientTable}>Volver a la tabla</BlueButton>
             </div>
           </div>

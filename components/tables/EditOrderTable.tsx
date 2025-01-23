@@ -73,8 +73,16 @@ export default function EditOrderTable() {
         status: getOrderStatusName(order.status),
         currency: order.currency,
         totalAmount: `$ ${order.totalAmount}`,
-        createdAt: order.createdAt,
-        uodatedAt: ''
+        createdAt: new Date(order.createdAt).toLocaleString('es-AR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }),
+        updatedAt: '',
+        client: 'Apellidos, Nombres'
     }));
 
 
@@ -165,7 +173,7 @@ export default function EditOrderTable() {
         { 
             field: 'orderId', 
             headerName: 'ID', 
-            width: 120,
+            width: 90,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
@@ -174,7 +182,7 @@ export default function EditOrderTable() {
         { 
             field: 'status', 
             headerName: 'Estado', 
-            width: 180,
+            width: 160,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
@@ -183,7 +191,7 @@ export default function EditOrderTable() {
         { 
             field: 'currency', 
             headerName: 'Moneda', 
-            width: 100,
+            width: 90,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
@@ -192,7 +200,7 @@ export default function EditOrderTable() {
         { 
             field: 'totalAmount', 
             headerName: 'Monto Total', 
-            width: 150,
+            width: 140,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
@@ -216,11 +224,20 @@ export default function EditOrderTable() {
             align: 'center',
             headerAlign: 'center',
         },
+        { 
+            field: 'client', 
+            headerName: 'Cliente', 
+            flex: 150,
+            editable: false,
+            disableColumnMenu: true,
+            align: 'center',
+            headerAlign: 'center',
+        },
         {
             field: 'actions',
             type: 'actions',
             headerName: 'Opciones',
-            width: 160,
+            width: 140,
             cellClassName: 'actions',
             getActions: ( params ) => {
                 const { id, row } = params;

@@ -9,13 +9,13 @@ import { ClientFormSchema } from "@/src/schema";
 import { ClientFormData } from "@/src/types";
 import { useOrderStore } from "@/src/store";
 import ClientFacade from "@/src/services/client-facade";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 export default function ClientForm() {
 
     const router = usePathname();
-    const { register, control, handleSubmit, formState: { errors} } = useForm<ClientFormData>({
+    const { register, control, handleSubmit, formState: { errors}, reset } = useForm<ClientFormData>({
         resolver: zodResolver(ClientFormSchema)
     });
     
@@ -50,6 +50,7 @@ export default function ClientForm() {
                     toast.error('Error al obtener el cliente' + selectedClient);
                 }
             }
+            reset();
         } else {
             toast.error('Error al crear el cliente: ' + response);
         }
