@@ -91,7 +91,9 @@ export default function EditOrderTable() {
                 hour12: false
             })
             : '',
-        client: 'Apellidos, Nombres'
+        client: order.client
+            ? `${order.client.lastName}, ${order.client.firstName}`
+            : '',
     }));
 
 
@@ -191,7 +193,7 @@ export default function EditOrderTable() {
         {
             field: 'status',
             headerName: 'Estado',
-            width: 160,
+            width: 90,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
@@ -218,7 +220,7 @@ export default function EditOrderTable() {
         {
             field: 'createdAt',
             headerName: 'Fecha Creación',
-            flex: 150,
+            flex: 140,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
@@ -227,7 +229,7 @@ export default function EditOrderTable() {
         {
             field: 'executedAt',
             headerName: 'Fecha Ejecución',
-            flex: 150,
+            flex: 140,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
@@ -236,7 +238,7 @@ export default function EditOrderTable() {
         {
             field: 'client',
             headerName: 'Paciente',
-            flex: 150,
+            flex: 170,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
@@ -246,7 +248,7 @@ export default function EditOrderTable() {
             field: 'actions',
             type: 'actions',
             headerName: 'Opciones',
-            width: 140,
+            width: 170,
             cellClassName: 'actions',
             getActions: ( params ) => {
                 const { id, row } = params;

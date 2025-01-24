@@ -30,6 +30,12 @@ export type reponseMeta = {
     hasNextPage: boolean;
 }
 
+export type OrderClient = {
+    id: string;
+    firstName: string;
+    lastName: string;
+}
+
 export type Order = {
     id: string;
     currency: string;
@@ -37,9 +43,10 @@ export type Order = {
     createdAt: string;
     executedAt: string;
     status: string;
+    client?: OrderClient;
   }
 
-  export type OrdersResponse = {
+export type OrdersResponse = {
     data: Order[];
     meta: reponseMeta;
   }
