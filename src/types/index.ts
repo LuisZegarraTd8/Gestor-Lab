@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { ClientFormSchema, ClientSchema,DocTypeSchema, NewHealthOrderSchema, 
-    HealthOrderSchema, LabItemSchema, OrderStatusSchema, SearchDocFormSchema, 
+import { ClientFormSchema, ClientSchema,DocTypeSchema, NewHealthOrderSchema,
+    HealthOrderSchema, LabItemSchema, OrderStatusSchema, SearchDocFormSchema,
     SelectedLabItemSchema } from "@/src/schema";
 
 export type DocTypes = z.infer<typeof DocTypeSchema>
@@ -35,9 +35,10 @@ export type Order = {
     currency: string;
     totalAmount: string;
     createdAt: string;
+    executedAt: string;
     status: string;
   }
-  
+
   export type OrdersResponse = {
     data: Order[];
     meta: reponseMeta;

@@ -81,7 +81,16 @@ export default function EditOrderTable() {
             minute: '2-digit',
             hour12: false
         }),
-        updatedAt: '',
+        executedAt: order.executedAt
+            ? new Date(order.executedAt).toLocaleString('es-AR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            })
+            : '',
         client: 'Apellidos, Nombres'
     }));
 
@@ -216,8 +225,8 @@ export default function EditOrderTable() {
             headerAlign: 'center',
         },
         {
-            field: 'updatedAt',
-            headerName: 'Fecha Modificación',
+            field: 'executedAt',
+            headerName: 'Fecha Ejecución',
             flex: 150,
             editable: false,
             disableColumnMenu: true,
