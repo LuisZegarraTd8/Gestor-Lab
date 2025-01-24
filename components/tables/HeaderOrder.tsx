@@ -1,6 +1,9 @@
-import { Preview, EditNote, Mail } from '@mui/icons-material'
-import { EditRounded, PublishedWithChangesRounded, EmailRounded } from '@mui/icons-material';
-
+import {
+    EditRounded,
+    PublishedWithChangesRounded,
+    EmailRounded,
+} from '@mui/icons-material';
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 export default function HeaderOrder() {
   return (
@@ -9,15 +12,19 @@ export default function HeaderOrder() {
         <div className='flex gap-6'>
             <div className='flex gap-2 text-negro-claro'>
                 <EditRounded/>
-                <p>Editar información.</p>
+                <p>Editar información</p>
+            </div>
+            <div className='flex gap-2 text-negro-claro'>
+                <UploadFileIcon/>
+                <p>Adjuntar Prescripción</p>
             </div>
             <div className='flex gap-2 text-negro-claro'>
                 <PublishedWithChangesRounded/>
-                <p>Actualizar Estado.</p>
+                <p>Actualizar Estado</p>
             </div>
             <div className='flex gap-2 text-negro-claro'>
                 <EmailRounded/>
-                <p>Enviar correo.</p>
+                <p>Enviar correo</p>
             </div>
         </div>
     </div>

@@ -11,6 +11,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import PublishedWithChangesRoundedIcon from '@mui/icons-material/PublishedWithChangesRounded';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import OrderFacade from '@/src/services/order-facade';
 import { toast } from 'react-toastify';
 import EmailDialog from '../dialog/EmailDialog';
@@ -284,6 +285,14 @@ export default function EditOrderTable() {
                         sx={{
                             color: '#363636',
                         }}
+                    />,
+                    <GridActionsCellItem
+                        icon={<UploadFileIcon />}
+                        label="Upload Health Order"
+                        className="textPrimary"
+                        onClick={handleEditClick(id)}
+                        disabled
+                        sx={{ color: '#363636' }}
                     />,
                     <GridActionsCellItem
                         icon={<PublishedWithChangesRoundedIcon />}
