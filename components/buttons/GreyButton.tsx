@@ -1,6 +1,5 @@
 import { Button, ButtonProps } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { grey } from '@mui/material/colors';
 
 const GreyButton = styled(Button)<ButtonProps>(({ theme }) => ({
   variants: 'contained',

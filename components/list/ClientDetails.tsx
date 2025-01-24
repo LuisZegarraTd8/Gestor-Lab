@@ -1,21 +1,21 @@
-import { Client } from "@/src/types"
-import { useOrderStore } from "@/src/store"
-import BlueButton from "../buttons/BlueButton"
-import { getDocTypeAbbr } from "@/src/services/client-service"
+import { Client } from '@/src/types';
+import { useOrderStore } from '@/src/store';
+import { getDocTypeAbbr } from '@/src/services/client-service';
+import BlueButton from '../buttons/BlueButton';
 
 
 type ClientDetailsProps = {
     client: Client
 }
 
-export default function ClientDetails({client} : ClientDetailsProps) {
-    const selectedclient = useOrderStore((state) => state.selectedClient)
+export default function ClientDetails({ client } : ClientDetailsProps) {
+  const selectedclient = useOrderStore(state => state.selectedClient);
 
-    const handleClick = () => {
-        useOrderStore.setState({selectedClient: client})
-    }
-        
-    return (
+  const handleClick = () => {
+    useOrderStore.setState({ selectedClient: client });
+  };
+
+  return (
         <div className="p-6 bg-white shadow-md rounded-xl flex flex-col justify-between h-fit gap-3 sm:min-h-64">
             <p className="text-right text-gray-500 font-semibold border-b-2 mb-2">
                 ID: {client.id}
@@ -49,5 +49,5 @@ export default function ClientDetails({client} : ClientDetailsProps) {
                 </BlueButton>
             </div>
         </div>
-    )
+  );
 }

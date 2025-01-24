@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import MainHeader from "@/components/nav/MainHeader";
-import { ToastContainer } from "react-toastify";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import MainHeader from '@/components/nav/MainHeader';
+import { ToastContainer } from 'react-toastify';
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets: ['latin'],
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "Gestor de Ordenes y Pacientes",
-  description: "Gestor de Ordenes y Pacientes de Laboratorio",
+  title: 'Gestor de Ordenes y Pacientes',
+  description: 'Gestor de Ordenes y Pacientes de Laboratorio',
 };
 
 export default function RootLayout({

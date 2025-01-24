@@ -16,7 +16,7 @@ export default function HeaderOrder() {
             </div>
             <div className='flex gap-2 text-negro-claro'>
                 <UploadFileIcon/>
-                <p>Adjuntar Prescripción</p>
+                <p>Adjuntar Receta</p>
             </div>
             <div className='flex gap-2 text-negro-claro'>
                 <PublishedWithChangesRounded/>

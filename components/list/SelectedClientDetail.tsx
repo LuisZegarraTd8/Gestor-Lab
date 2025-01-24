@@ -1,14 +1,13 @@
-import { Client } from "@/src/types"
-import ClientDetailItem from "./ClientDetailItem"
-import { getDocTypeAbbr } from "@/src/services/client-service"
+import { Client } from '@/src/types';
+import { getDocTypeAbbr } from '@/src/services/client-service';
+import ClientDetailItem from './ClientDetailItem';
 
 type ClientDetailsProps = {
     client: Client
 }
 
-export default function SelectedClientDetails({client} : ClientDetailsProps) {
- 
-    return (
+export default function SelectedClientDetails({ client } : ClientDetailsProps) {
+  return (
         <div className="p-4 w-full divide-y-[1px] divide-gris-oscuro/30">
             <ClientDetailItem label="ID" data={client.id} />
             <ClientDetailItem label="Nombre" data={client.firstName} />
@@ -18,5 +17,5 @@ export default function SelectedClientDetails({client} : ClientDetailsProps) {
             <ClientDetailItem label="Correo Electrónico" data={client.email} />
             <ClientDetailItem label="Número de Teléfono" data={client.phoneNumber} />
         </div>
-    )
+  );
 }

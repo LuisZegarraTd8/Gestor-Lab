@@ -1,7 +1,9 @@
-import { z } from "zod";
-import { ClientFormSchema, ClientSchema,DocTypeSchema, NewHealthOrderSchema,
-    HealthOrderSchema, LabItemSchema, OrderStatusSchema, SearchDocFormSchema,
-    SelectedLabItemSchema } from "@/src/schema";
+import { z } from 'zod';
+import {
+  ClientFormSchema, ClientSchema, DocTypeSchema, NewHealthOrderSchema,
+  HealthOrderSchema, LabItemSchema, OrderStatusSchema, SearchDocFormSchema,
+  SelectedLabItemSchema,
+} from '@/src/schema';
 
 export type DocTypes = z.infer<typeof DocTypeSchema>
 

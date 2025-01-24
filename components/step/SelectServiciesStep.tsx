@@ -1,45 +1,45 @@
-import LabCalculator, {LabItem} from "../../src/services/lab-calculator";
-import {useEffect} from "react";
-import BigNumber from "bignumber.js";
-import MathUtils from "../../src/services/math-utils";
+import { useEffect } from 'react';
+import BigNumber from 'bignumber.js';
+import { Alert } from '@mui/material';
+import { useOrderStore } from '@/src/store';
+import LabCalculator, { LabItem } from '../../src/services/lab-calculator';
+import MathUtils from '../../src/services/math-utils';
 import LabMiniSummaryDesktop from '../tables/LabMiniSummaryDesktop';
-import LabTableDesktop from "../tables/LabTableDesktop";
-import TotalQuote from "../tables/TotalQuote";
-import { Alert } from "@mui/material";
-import { useOrderStore } from "@/src/store";
+import LabTableDesktop from '../tables/LabTableDesktop';
+import TotalQuote from '../tables/TotalQuote';
 
 
 export default function SelectServiciesStep() {
-    // Store de Zustand
-    const selectedItems = useOrderStore((state) => state.preselectedLabItems )
-    const totalAmountOrder  = useOrderStore((state) => state.totalAmountOrder )
-    const selectedRowModel  = useOrderStore((state) => state.selectedRows )
-    const total = LabCalculator.getTotalAmount(selectedItems);
-    const suggestedTotal = new BigNumber(MathUtils.roundToNearestHundred(total.toNumber()));
-    
+  // Store de Zustand
+  const selectedItems = useOrderStore(state => state.preselectedLabItems);
+  const totalAmountOrder = useOrderStore(state => state.totalAmountOrder);
+  const selectedRowModel = useOrderStore(state => state.selectedRows);
+  const total = LabCalculator.getTotalAmount(selectedItems);
+  const suggestedTotal = new BigNumber(MathUtils.roundToNearestHundred(total.toNumber()));
 
-    useEffect(() => {
-        useOrderStore.setState({ totalAmountOrder: suggestedTotal.toFormat(0) });
-    }, [suggestedTotal]);
-    
-    
-    const deleteSelectedRowSelectionModel = ( itemToDelete: LabItem ) => {
-        useOrderStore.setState((state) => ({
-            selectedRows: state.selectedRows.filter(selectedRow => Number(selectedRow)!== itemToDelete.id)
-        }));
-    };
 
-    const deleteSelectedLabItem = (itemToDelete: LabItem) => {
-        useOrderStore.setState((state) => ({
-            preselectedLabItems: state.preselectedLabItems.filter(labItem => labItem.id !== itemToDelete.id),
-            selectedLabItems: state.selectedLabItems.filter(labItem => labItem.code !== itemToDelete.code),
-        }));
-    };
+  useEffect(() => {
+    useOrderStore.setState({ totalAmountOrder: suggestedTotal.toFormat(0) });
+  }, [suggestedTotal]);
 
-    return (
+
+  const deleteSelectedRowSelectionModel = (itemToDelete: LabItem) => {
+    useOrderStore.setState(state => ({
+      selectedRows: state.selectedRows.filter(selectedRow => Number(selectedRow) !== itemToDelete.id),
+    }));
+  };
+
+  const deleteSelectedLabItem = (itemToDelete: LabItem) => {
+    useOrderStore.setState(state => ({
+      preselectedLabItems: state.preselectedLabItems.filter(labItem => labItem.id !== itemToDelete.id),
+      selectedLabItems: state.selectedLabItems.filter(labItem => labItem.code !== itemToDelete.code),
+    }));
+  };
+
+  return (
         <div className="flex flex-col gap-4">
             <div className="mx-auto">
-                <Alert variant="filled" severity="info" sx={{ backgroundColor:'#3397b3' }}>
+                <Alert variant="filled" severity="info" sx={{ backgroundColor: '#3397b3' }}>
                     Por favor para continuar, realice la búsqueda y seleccione los estudios que quiere cotizar. El total está redondeado sin centavos.
                 </Alert>
             </div>
@@ -59,20 +59,20 @@ export default function SelectServiciesStep() {
                     <h2 className="text-center text-lg font-bold text-negro-claro uppercase py-2 border-b-4 border-gris-oscuro/30 h-fit">
                         Estudios seleccionados:
                     </h2>
-                    
+
                     <div className="flex flex-col justify-between h-full">
                         <div className="px-4">
-                            <LabMiniSummaryDesktop 
+                            <LabMiniSummaryDesktop
                                 selectedLabItems = {selectedItems}
                                 deleteSelectedLabItem={deleteSelectedLabItem}
                                 deleteSelectedRowSelectionModel={deleteSelectedRowSelectionModel}/>
                         </div>
-                        
-                        <TotalQuote description={'Total de los Estudios:'} total={totalAmountOrder}/> 
+
+                        <TotalQuote description={'Total de los Estudios:'} total={totalAmountOrder}/>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
-    )
+  );
 }
