@@ -21,11 +21,11 @@ import UpdateStatusDialog from '../dialog/UpdateStatusDialog';
 function CustomToolbar() {
     return (
     <GridToolbarContainer>
-        <GridToolbarDensitySelector 
-        slotProps={{ tooltip: { title: 'Cambiar densidad' } }} 
+        <GridToolbarDensitySelector
+        slotProps={{ tooltip: { title: 'Cambiar densidad' } }}
         />
-        <GridToolbarExport 
-        slotProps={{ tooltip: { title: 'Exportar datos' } }} 
+        <GridToolbarExport
+        slotProps={{ tooltip: { title: 'Exportar datos' } }}
         />
         <Box sx={{ flexGrow: 1 }} />
         <GridToolbarQuickFilter />
@@ -35,7 +35,7 @@ function CustomToolbar() {
 
 
 export default function EditOrderTable() {
-    
+
     const orderFacade = new OrderFacade();
     const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>([]);
     const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
@@ -44,7 +44,7 @@ export default function EditOrderTable() {
     const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
     const [currentStatus, setCurrentStatus] = useState<string>('');
     const [newStatus, setNewStatus] = useState<string>('');
-    
+
 
     // Para obtener las ordenes al cargar la página
     const fetchOrders = async () => {
@@ -60,11 +60,11 @@ export default function EditOrderTable() {
             toast.error('Error al obtener las ordenes: ' + errorMessage);
         }
     };
-    
+
     useEffect(() => {
         fetchOrders();
     }, []);
-    
+
     const orders = useOrderStore((state) => state.allOrders);
     const rows = orders.map(order => ({
         ...order,
@@ -90,16 +90,16 @@ export default function EditOrderTable() {
     const handleSelectionChange = (newSelectionModel: GridRowSelectionModel) => {
         setSelectionModel(newSelectionModel);
       };
-    
+
     // Para mostrar el editar la fila, de momento no esta implementado la llamada a la API
     const handleEditClick = (id: GridRowId) => () => {
         setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
     };
-    
+
     const handleSaveClick = (id: GridRowId) => () => {
         setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
     };
-    
+
     const handleCancelClick = (id: GridRowId) => () => {
         setRowModesModel({
             ...rowModesModel,
@@ -170,63 +170,63 @@ export default function EditOrderTable() {
 
 
     const columns: GridColDef[] = [
-        { 
-            field: 'orderId', 
-            headerName: 'ID', 
+        {
+            field: 'orderId',
+            headerName: 'ID',
             width: 90,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
             headerAlign: 'center',
         },
-        { 
-            field: 'status', 
-            headerName: 'Estado', 
+        {
+            field: 'status',
+            headerName: 'Estado',
             width: 160,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
             headerAlign: 'center',
         },
-        { 
-            field: 'currency', 
-            headerName: 'Moneda', 
+        {
+            field: 'currency',
+            headerName: 'Moneda',
             width: 90,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
             headerAlign: 'center',
-        }, 
-        { 
-            field: 'totalAmount', 
-            headerName: 'Monto Total', 
+        },
+        {
+            field: 'totalAmount',
+            headerName: 'Monto Total',
             width: 140,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
             headerAlign: 'center',
         },
-        { 
-            field: 'createdAt', 
-            headerName: 'Fecha de Creación', 
-            flex: 150, 
-            editable: false,
-            disableColumnMenu: true,
-            align: 'center',
-            headerAlign: 'center',
-        },
-        { 
-            field: 'updatedAt', 
-            headerName: 'Fecha de Modificación', 
+        {
+            field: 'createdAt',
+            headerName: 'Fecha Creación',
             flex: 150,
             editable: false,
             disableColumnMenu: true,
             align: 'center',
             headerAlign: 'center',
         },
-        { 
-            field: 'client', 
-            headerName: 'Cliente', 
+        {
+            field: 'updatedAt',
+            headerName: 'Fecha Modificación',
+            flex: 150,
+            editable: false,
+            disableColumnMenu: true,
+            align: 'center',
+            headerAlign: 'center',
+        },
+        {
+            field: 'client',
+            headerName: 'Paciente',
             flex: 150,
             editable: false,
             disableColumnMenu: true,
@@ -242,7 +242,7 @@ export default function EditOrderTable() {
             getActions: ( params ) => {
                 const { id, row } = params;
                 const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-        
+
                 if (isInEditMode) {
                     return [
                     <GridActionsCellItem
@@ -262,7 +262,7 @@ export default function EditOrderTable() {
                     />,
                     ];
                 }
-        
+
                 return [
                     <GridActionsCellItem
                         icon={<EditIcon />}
@@ -307,7 +307,7 @@ export default function EditOrderTable() {
                         borderBottomWidth: 2,
                         borderBottomColor: '#BFBFBF',
                         borderTopRightRadius: 6,
-                        borderTopLeftRadius: 6, 
+                        borderTopLeftRadius: 6,
                     },
                     '& .MuiDataGrid-columnHeaderTitle': {
                         fontWeight: 700,
@@ -317,8 +317,8 @@ export default function EditOrderTable() {
                     },
                     '& .MuiInput-underline:before': {
                         borderBottomWidth: 2,
-                        borderBottomColor: '#BFBFBF', 
-                    },               
+                        borderBottomColor: '#BFBFBF',
+                    },
                 }}
                 rows={rows}
                 autosizeOnMount= {true}
@@ -354,9 +354,9 @@ export default function EditOrderTable() {
                             : `${count.toLocaleString()} orden seleccionada`,
                 }}
             />
-            
+
             <EmailDialog open={openEmailDialog} onClose={handleCloseEmailDialog} onSend={handleSendEmail} />
-            
+
             <UpdateStatusDialog
                 open={openUpdateStatusDialog}
                 onClose={handleCloseUpdateStatusDialog}
