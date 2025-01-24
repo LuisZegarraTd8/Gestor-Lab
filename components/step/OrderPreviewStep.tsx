@@ -1,31 +1,30 @@
-import { Alert } from '@mui/material'
-import SelectedClientDetails from '../list/SelectedClientDetail'
-import SelectedServiciesTable from '../tables/SelectedServiciesTable'
-import TotalQuote from '../tables/TotalQuote'
-import { useOrderStore } from '@/src/store'
-import GreyButton from "../buttons/GreyButton"
-import BlueButton from "../buttons/BlueButton"
+import { Alert } from '@mui/material';
+import { useOrderStore } from '@/src/store';
+import SelectedClientDetails from '../list/SelectedClientDetail';
+import SelectedServiciesTable from '../tables/SelectedServiciesTable';
+import TotalQuote from '../tables/TotalQuote';
+import GreyButton from '../buttons/GreyButton';
+import BlueButton from '../buttons/BlueButton';
 
 
 export default function OrderPreviewStep() {
+  const selectedItems = useOrderStore(state => state.preselectedLabItems);
+  const totalAmountOrder = useOrderStore(state => state.totalAmountOrder);
+  const selectedClient = useOrderStore(state => state.selectedClient);
+  const setActiveStep = useOrderStore(state => state.setActiveStep);
 
-    const selectedItems = useOrderStore( (state) => state.preselectedLabItems )
-    const totalAmountOrder  = useOrderStore( (state) => state.totalAmountOrder )
-    const selectedClient = useOrderStore( (state) => state.selectedClient )
-    const setActiveStep = useOrderStore((state) => state.setActiveStep);
+  const handleResetClient = () => {
+    setActiveStep(1);
+  };
 
-    const handleResetClient = () => {
-        setActiveStep(1);
-    };
-    
-    const handleEditLabs = () => {
-        setActiveStep(0);
-    };
+  const handleEditLabs = () => {
+    setActiveStep(0);
+  };
 
   return (
     <div className="flex flex-col gap-4">
         <div className="mx-auto">
-            <Alert variant="filled" severity="info" sx={{ backgroundColor:'#3397b3' }}>
+            <Alert variant="filled" severity="info" sx={{ backgroundColor: '#3397b3' }}>
             Por favor antes de continuar, revise y verifique que la información del paciente, como también los estudios sean correctos.
             </Alert>
         </div>
@@ -36,7 +35,7 @@ export default function OrderPreviewStep() {
                 <h2 className="text-center text-lg font-bold text-negro-claro uppercase py-2 border-b-4 border-gris-oscuro/30 h-fit">
                     Datos del Cliente seleccionado:
                 </h2>
-                
+
                 <div className="flex flex-col justify-between h-full">
                     <SelectedClientDetails client={selectedClient} />
                     <div className="flex flex-col lg:flex-row gap-3 justify-center">
@@ -46,7 +45,7 @@ export default function OrderPreviewStep() {
 
                         <GreyButton onClick={handleEditLabs}>
                             Cambiar Estudios
-                        </GreyButton>     
+                        </GreyButton>
                     </div>
                 </div>
             </div>
@@ -56,7 +55,7 @@ export default function OrderPreviewStep() {
                 <h2 className="text-center text-lg font-bold text-negro-claro uppercase py-2 border-b-4 border-gris-oscuro/30 h-fit">
                     Estudios seleccionados:
                 </h2>
-                
+
                 <div className="flex flex-col justify-between h-full">
                     <div className='px-4'>
                         <SelectedServiciesTable selectedLabItems = {selectedItems}/>
@@ -67,5 +66,5 @@ export default function OrderPreviewStep() {
             </div>
         </div>
     </div>
-  )
+  );
 }

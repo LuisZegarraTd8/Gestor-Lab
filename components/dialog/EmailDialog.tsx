@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button } from '@mui/material';
+import {
+  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button,
+} from '@mui/material';
 
 interface EmailDialogProps {
     open: boolean;
@@ -8,21 +10,21 @@ interface EmailDialogProps {
 }
 
 const EmailDialog: React.FC<EmailDialogProps> = ({ open, onClose, onSend }) => {
-    const [email, setEmail] = React.useState('');
+  const [email, setEmail] = React.useState('');
 
-    const handleSend = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        onSend(email);
-        onClose();
-    };
+  const handleSend = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSend(email);
+    onClose();
+  };
 
-    return (
+  return (
         <Dialog
             open={open}
             onClose={onClose}
             PaperProps={{
-                component: 'form',
-                onSubmit: handleSend,
+              component: 'form',
+              onSubmit: handleSend,
             }}
         >
             <DialogTitle fontWeight={700}>Enviar Correo</DialogTitle>
@@ -41,7 +43,7 @@ const EmailDialog: React.FC<EmailDialogProps> = ({ open, onClose, onSend }) => {
                     fullWidth
                     variant="standard"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={e => setEmail(e.target.value)}
                 />
             </DialogContent>
             <DialogActions>
@@ -49,7 +51,7 @@ const EmailDialog: React.FC<EmailDialogProps> = ({ open, onClose, onSend }) => {
                 <Button type="submit">Confirmar</Button>
             </DialogActions>
         </Dialog>
-    );
+  );
 };
 
 export default EmailDialog;

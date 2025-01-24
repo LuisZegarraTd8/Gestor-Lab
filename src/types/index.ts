@@ -1,7 +1,9 @@
-import { z } from "zod";
-import { ClientFormSchema, ClientSchema,DocTypeSchema, NewHealthOrderSchema, 
-    HealthOrderSchema, LabItemSchema, OrderStatusSchema, SearchDocFormSchema, 
-    SelectedLabItemSchema } from "@/src/schema";
+import { z } from 'zod';
+import {
+  ClientFormSchema, ClientSchema, DocTypeSchema, NewHealthOrderSchema,
+  HealthOrderSchema, LabItemSchema, OrderStatusSchema, SearchDocFormSchema,
+  SelectedLabItemSchema,
+} from '@/src/schema';
 
 export type DocTypes = z.infer<typeof DocTypeSchema>
 
@@ -30,15 +32,23 @@ export type reponseMeta = {
     hasNextPage: boolean;
 }
 
+export type OrderClient = {
+    id: string;
+    firstName: string;
+    lastName: string;
+}
+
 export type Order = {
     id: string;
     currency: string;
     totalAmount: string;
     createdAt: string;
+    executedAt: string;
     status: string;
+    client?: OrderClient;
   }
-  
-  export type OrdersResponse = {
+
+export type OrdersResponse = {
     data: Order[];
     meta: reponseMeta;
   }

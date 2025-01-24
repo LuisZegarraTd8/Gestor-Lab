@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@mui/material';
+import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 
@@ -10,13 +10,13 @@ const BlueButton = styled(Button)(({ theme }) => ({
   padding: '8px 16px 8px 16px',
   border: '2px solid #3965BB',
   boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.12)',
-  color: theme.palette.getContrastText('#5479C2'), 
+  color: theme.palette.getContrastText('#5479C2'),
   backgroundColor: '#5479C2',
   transition: 'colors 0.3s ease-in-out',
   position: 'relative',
   zIndex: 10,
   textAlign: 'center',
-  
+
   '&::before': {
     content: '""',
     position: 'absolute',

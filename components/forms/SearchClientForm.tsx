@@ -1,126 +1,125 @@
-'use client'
+'use client';
+
 import React, { useState } from 'react';
 import {
-    FormControl, RadioGroup, FormControlLabel,
-    Radio, TextField, Button,
-    MenuItem, 
+  FormControl, RadioGroup, FormControlLabel,
+  Radio, TextField, Button,
+  MenuItem,
 } from '@mui/material';
-import BlueButton from "@/components/buttons/BlueButton";
+import BlueButton from '@/components/buttons/BlueButton';
 import { docTypes } from '@/src/data';
-import GreyButton from '../buttons/GreyButton';
 import ClientFacade from '@/src/services/client-facade';
 import { useOrderStore } from '@/src/store';
 import { toast } from 'react-toastify';
-
+import GreyButton from '../buttons/GreyButton';
 
 
 export default function SearchClientForm() {
+  const { showSearchClientResultPage } = useOrderStore();
+  const [searchType, setSearchType] = useState('id');
+  const [searchValues, setSearchValues] = useState({
+    id: '',
+    personIdType: '',
+    personId: '',
+    firstName: '',
+    lastName: '',
+  });
 
-    const { showSearchClientResultPage } = useOrderStore()
-    const [searchType, setSearchType] = useState('id');
-    const [searchValues, setSearchValues] = useState({
-        id: '',
-        personIdType: '',
-        personId: '',
-        firstName: '',
-        lastName: '',
+  const handleClearForm = () => {
+    setSearchValues({
+      id: '',
+      personIdType: '',
+      personId: '',
+      firstName: '',
+      lastName: '',
+    });
+  };
+
+  const handleSearchTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchType(event.target.value);
+  };
+
+  const handleSearchValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setSearchValues({
+      ...searchValues,
+      [name]: value,
+    });
+  };
+
+  const handleSearchForID = async () => {
+    // Busqueda de cliente por ID con API
+    const clientFacade = new ClientFacade();
+    const client = await clientFacade.getClientById(searchValues.id);
+
+    if (typeof client !== 'string') {
+      if (client.id === '') {
+        toast.warn('No se encontraron clientes con el ID proporcionado.');
+      } else {
+        useOrderStore.setState({ foundClients: [client] });
+        showSearchClientResultPage();
+      }
+    } else {
+      toast.error(`Error al buscar el cliente: ${client}`);
+    }
+  };
+
+  const handleSearchForDoc = async () => {
+    // Busqueda de cliente por Documento con API
+    const clientFacade = new ClientFacade();
+    const clients = await clientFacade.getClientsByDoc({
+      personIdType: searchValues.personIdType,
+      personId: searchValues.personId,
     });
 
-    const handleClearForm = () => {
-        setSearchValues({
-            id: '',
-            personIdType: '',
-            personId: '',
-            firstName: '',
-            lastName: '',
-        });
-    };
+    if (typeof clients !== 'string') {
+      if (clients.data.length === 0) {
+        toast.warn('No se encontraron clientes con el documento proporcionado.');
+      } else {
+        useOrderStore.setState({ foundClients: clients.data });
+        showSearchClientResultPage();
+      }
+    } else {
+      toast.error(`Error al buscar el cliente: ${clients}`);
+    }
+  };
 
-    const handleSearchTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchType(event.target.value);
-    };
+  const handleSearchForFisrtName = async () => {
+    // Busqueda de cliente por Nombre con API
+    const clientFacade = new ClientFacade();
+    const clients = await clientFacade.getClientsByFirstName(searchValues.firstName);
 
-    const handleSearchValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+    if (typeof clients !== 'string') {
+      if (clients.data.length === 0) {
+        toast.warn('No se encontraron clientes con el nombre proporcionado.');
+      } else {
+        useOrderStore.setState({ foundClients: clients.data });
+        showSearchClientResultPage();
+      }
+    } else {
+      toast.error(`Error al buscar el cliente: ${clients}`);
+    }
+  };
 
-        setSearchValues({
-          ...searchValues,
-          [name]: value,
-        });
-      };
+  const handleSearchForLastName = async () => {
+    // Busqueda de cliente por Apellido con API
+    const clientFacade = new ClientFacade();
+    const clients = await clientFacade.getClientsByLastName(searchValues.lastName);
 
-    const handleSearchForID = async () => {
-        // Busqueda de cliente por ID con API
-        const clientFacade = new ClientFacade();
-        const client = await clientFacade.getClientById(searchValues.id);
+    if (typeof clients !== 'string') {
+      if (clients.data.length === 0) {
+        toast.warn('No se encontraron clientes con el apellido proporcionado.');
+      } else {
+        useOrderStore.setState({ foundClients: clients.data });
+        showSearchClientResultPage();
+      }
+    } else {
+      toast.error(`Error al buscar el cliente: ${clients}`);
+    }
+  };
 
-        if (typeof client !== 'string') {
-            if (client.id === '') {
-                toast.warn('No se encontraron clientes con el ID proporcionado.');
-            } else {
-                useOrderStore.setState({ foundClients: [client] });
-                showSearchClientResultPage();
-            }
-        } else {
-            toast.error('Error al buscar el cliente: ' + client);
-        };
-    };
-
-    const handleSearchForDoc = async () => {
-        // Busqueda de cliente por Documento con API
-        const clientFacade = new ClientFacade();
-        const clients= await clientFacade.getClientsByDoc({
-            personIdType: searchValues.personIdType,
-            personId: searchValues.personId
-        });
-
-        if (typeof clients !== 'string') {
-            if (clients.data.length === 0) {
-                toast.warn('No se encontraron clientes con el documento proporcionado.');
-            } else {
-                useOrderStore.setState({ foundClients: clients.data });
-                showSearchClientResultPage();
-            }
-        } else {
-            toast.error('Error al buscar el cliente: ' + clients);
-        };
-    };
-
-    const handleSearchForFisrtName = async () => {
-        // Busqueda de cliente por Nombre con API
-        const clientFacade = new ClientFacade();
-        const clients= await clientFacade.getClientsByFirstName(searchValues.firstName);
-
-        if (typeof clients !== 'string') {
-            if (clients.data.length === 0) {
-                toast.warn('No se encontraron clientes con el nombre proporcionado.');
-            } else {
-                useOrderStore.setState({ foundClients: clients.data });
-                showSearchClientResultPage();
-            }
-        } else {
-            toast.error('Error al buscar el cliente: ' + clients);
-        };
-    };
-
-    const handleSearchForLastName = async () => {
-        // Busqueda de cliente por Apellido con API
-        const clientFacade = new ClientFacade();
-        const clients= await clientFacade.getClientsByLastName(searchValues.lastName);
-
-        if (typeof clients !== 'string') {
-            if (clients.data.length === 0) {
-                toast.warn('No se encontraron clientes con el apellido proporcionado.');
-            } else {
-                useOrderStore.setState({ foundClients: clients.data });
-                showSearchClientResultPage();
-            }
-        } else {
-            toast.error('Error al buscar el cliente: ' + clients);
-        };
-    };
-
-    return (
+  return (
         <div className='flex flex-col gap-3'>
             <div className='pt-4 px-1 sm:px-5 w-full'>
                 <FormControl fullWidth>
@@ -151,7 +150,7 @@ export default function SearchClientForm() {
                                     Buscar
                                 </BlueButton>
                             </div>
-                            
+
                             {/* Búsqueda por Documento */}
                             <div className='pt-2 sm:col-span-2'>
                                 <FormControlLabel value="document" control={<Radio />} label="Documento del Cliente" />
@@ -167,7 +166,7 @@ export default function SearchClientForm() {
                                     onChange={handleSearchValueChange}
                                     select
                                 >
-                                    {docTypes.map((type) => (
+                                    {docTypes.map(type => (
                                         <MenuItem key={type.name} value={type.value}>{type.abbr}</MenuItem>
                                     ))}
                                     <MenuItem key='No Especificar' value=' '>No Especificar</MenuItem>
@@ -210,7 +209,7 @@ export default function SearchClientForm() {
                                     Buscar
                                 </BlueButton>
                             </div>
-                            
+
                             {/* Búsqueda por Apellido */}
                             <div className='pt-2 sm:col-span-2'>
                                 <FormControlLabel value="lastName" control={<Radio />} label="Apellido del Cliente" />
@@ -235,10 +234,10 @@ export default function SearchClientForm() {
                     </RadioGroup>
                 </FormControl>
             </div>
-            
+
             <div className='mx-auto w-72'>
                     <GreyButton onClick={handleClearForm} fullWidth>Borrar Campos</GreyButton>
             </div>
         </div>
-    );
+  );
 }

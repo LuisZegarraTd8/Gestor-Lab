@@ -1,63 +1,64 @@
-'use client'
+'use client';
+
 import { usePathname } from 'next/navigation';
-import BlueButton from "@/components/buttons/BlueButton";
-import { docTypes } from "@/src/data";
-import { MenuItem, TextField } from "@mui/material";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import BlueButton from '@/components/buttons/BlueButton';
+import { docTypes } from '@/src/data';
+import { MenuItem, TextField } from '@mui/material';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ClientFormSchema } from "@/src/schema";
-import { ClientFormData } from "@/src/types";
-import { useOrderStore } from "@/src/store";
-import ClientFacade from "@/src/services/client-facade";
+import { ClientFormSchema } from '@/src/schema';
+import { ClientFormData } from '@/src/types';
+import { useOrderStore } from '@/src/store';
+import ClientFacade from '@/src/services/client-facade';
 import { toast } from 'react-toastify';
 
 
 export default function ClientForm() {
+  const router = usePathname();
+  const {
+    register, control, handleSubmit, formState: { errors }, reset,
+  } = useForm<ClientFormData>({
+    resolver: zodResolver(ClientFormSchema),
+  });
 
-    const router = usePathname();
-    const { register, control, handleSubmit, formState: { errors}, reset } = useForm<ClientFormData>({
-        resolver: zodResolver(ClientFormSchema)
-    });
-    
-    const onSubmit: SubmitHandler<ClientFormData> = async (data) => {
-        
-        const newClient = {
-            id: '', 
-            firstName: data.firstName,
-            lastName: data.lastName,
-            personIdType: data.personIdType,
-            personId: data.personId,
-            externalId: '', 
-            booklyId: '',
-            email: data.email,
-            phoneNumber: data.phoneNumber,
-        };
-
-        // Prueba de registro con API
-        const clientFacade = new ClientFacade();
-        const {response, success} = await clientFacade.createClient(newClient);
-        
-        
-        if (success) {
-            toast.success(`Cliente creado con ID: ${response}`);
-            
-            if (router.includes('/new-order')) {
-                const selectedClient = await clientFacade.getClientById(response);
-                
-                if (typeof selectedClient !== 'string') {
-                    useOrderStore.setState({ selectedClient });
-                } else {
-                    toast.error('Error al obtener el cliente' + selectedClient);
-                }
-            }
-            reset();
-        } else {
-            toast.error('Error al crear el cliente: ' + response);
-        }
+  const onSubmit: SubmitHandler<ClientFormData> = async (data) => {
+    const newClient = {
+      id: '',
+      firstName: data.firstName,
+      lastName: data.lastName,
+      personIdType: data.personIdType,
+      personId: data.personId,
+      externalId: '',
+      booklyId: '',
+      email: data.email,
+      phoneNumber: data.phoneNumber,
     };
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} 
+    // Prueba de registro con API
+    const clientFacade = new ClientFacade();
+    const { response, success } = await clientFacade.createClient(newClient);
+
+
+    if (success) {
+      toast.success(`Cliente creado con ID: ${response}`);
+
+      if (router.includes('/new-order')) {
+        const selectedClient = await clientFacade.getClientById(response);
+
+        if (typeof selectedClient !== 'string') {
+          useOrderStore.setState({ selectedClient });
+        } else {
+          toast.error(`Error al obtener el cliente${selectedClient}`);
+        }
+      }
+      reset();
+    } else {
+      toast.error(`Error al crear el cliente: ${response}`);
+    }
+  };
+
+  return (
+        <form onSubmit={handleSubmit(onSubmit)}
             className="max-w-2xl w-full sm:min-w-[43rem] grid grid-cols-1 sm:grid-cols-8 gap-x-3 content-between min-h-80 p-2"
         >
             {/* Tipo y Número de Documento */}
@@ -74,7 +75,7 @@ export default function ClientForm() {
                             fullWidth
                             margin="normal"
                         >
-                            {docTypes.map((type) => (
+                            {docTypes.map(type => (
                                 <MenuItem key={type.name} value={type.value}>{type.abbr}</MenuItem>
                             ))}
                         </TextField>
@@ -144,5 +145,5 @@ export default function ClientForm() {
                 <BlueButton type="submit" fullWidth >Registrar Cliente</BlueButton>
             </div>
         </form>
-    )
+  );
 }

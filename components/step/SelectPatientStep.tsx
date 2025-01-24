@@ -1,20 +1,19 @@
-import { Alert } from "@mui/material";
-import { useOrderStore } from "@/src/store";
-import SearchDocForm from "../forms/SearchDocForm";
-import ClientsList from "../list/ClientsList";
-
+import { Alert } from '@mui/material';
+import { useOrderStore } from '@/src/store';
+import SearchDocForm from '../forms/SearchDocForm';
+import ClientsList from '../list/ClientsList';
 
 
 export default function SelectPatientStep() {
   // Store de Zustand
-  const selectedClient = useOrderStore( (state) => state.selectedClient )
-  const { visibleSearchClientResultStep } = useOrderStore()
+  const selectedClient = useOrderStore(state => state.selectedClient);
+  const { visibleSearchClientResultStep } = useOrderStore();
 
   return (
     <div className="flex flex-col gap-4">
       <div className="mx-auto">
         {/* <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC', fontSize: 16, ...(window.innerWidth < 1280 && { fontSize: 15}) }}> */}
-        <Alert variant="filled" severity="info" sx={{ backgroundColor:'#3397b3' }}>
+        <Alert variant="filled" severity="info" sx={{ backgroundColor: '#3397b3' }}>
           Por favor para continuar, busque y seleccione al cliente. Sino se encontraron resultados, por favor complete el formulario de registro para el nuevo cliente.
         </Alert>
       </div>
@@ -37,7 +36,5 @@ export default function SelectPatientStep() {
         )}
       </div>
     </div>
-  )
+  );
 }
-
-

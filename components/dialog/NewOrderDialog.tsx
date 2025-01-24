@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Typography } from '@mui/material';
+import {
+  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Typography,
+} from '@mui/material';
 
 interface NewOrderDialogProps {
     open: boolean;
@@ -10,8 +12,9 @@ interface NewOrderDialogProps {
     totalAmount: string;
 }
 
-const NewOrderDialog: React.FC<NewOrderDialogProps> = ({ open, onClose, onConfirm, clientName, numberOfStudies, totalAmount }) => {
-    return (
+const NewOrderDialog: React.FC<NewOrderDialogProps> = ({
+  open, onClose, onConfirm, clientName, numberOfStudies, totalAmount,
+}) => (
         <Dialog
             open={open}
             onClose={onClose}
@@ -43,7 +46,6 @@ const NewOrderDialog: React.FC<NewOrderDialogProps> = ({ open, onClose, onConfir
                 </Button>
             </DialogActions>
         </Dialog>
-    );
-};
+);
 
 export default NewOrderDialog;

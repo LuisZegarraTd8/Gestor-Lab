@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Typography } from '@mui/material';
+import {
+  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Typography,
+} from '@mui/material';
 import { getOrderStatusName } from '@/src/services/client-service';
 
 interface UpdateStatusDialogProps {
@@ -11,8 +13,9 @@ interface UpdateStatusDialogProps {
     newStatus: string;
 }
 
-const UpdateStatusDialog: React.FC<UpdateStatusDialogProps> = ({ open, onClose, onConfirm, orderId, currentStatus, newStatus }) => {
-    return (
+const UpdateStatusDialog: React.FC<UpdateStatusDialogProps> = ({
+  open, onClose, onConfirm, orderId, currentStatus, newStatus,
+}) => (
         <Dialog
             open={open}
             onClose={onClose}
@@ -23,7 +26,7 @@ const UpdateStatusDialog: React.FC<UpdateStatusDialogProps> = ({ open, onClose, 
                     ¿Desea actualizar el estado de la orden #{orderId} de{' '}
                     <Typography component="span" color="primary" fontWeight={700}>
                         {getOrderStatusName(currentStatus)}
-                    </Typography> 
+                    </Typography>
                     {' '}a{' '}
                     <Typography component="span" color="primary" fontWeight={700}>
                         {getOrderStatusName(newStatus)}
@@ -35,7 +38,6 @@ const UpdateStatusDialog: React.FC<UpdateStatusDialogProps> = ({ open, onClose, 
                 <Button onClick={onConfirm} color="primary">Confirmar</Button>
             </DialogActions>
         </Dialog>
-    );
-};
+);
 
 export default UpdateStatusDialog;

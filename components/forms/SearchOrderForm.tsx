@@ -1,81 +1,82 @@
-'use client'
+'use client';
+
 import React, { useState } from 'react';
 import {
-    FormControl, RadioGroup, FormControlLabel,
-    Radio, TextField, MenuItem, 
+  FormControl, RadioGroup, FormControlLabel,
+  Radio, TextField, MenuItem,
 } from '@mui/material';
-import BlueButton from "@/components/buttons/BlueButton";
+import BlueButton from '@/components/buttons/BlueButton';
 import { docTypes, orderStatus } from '@/src/data';
 import GreyButton from '../buttons/GreyButton';
 
 
 export default function SearchOrderForm() {
-    const [searchType, setSearchType] = useState('orderId');
-    const [searchValues, setSearchValues] = useState({
-        orderId: '',
-        orderStatus: '',
-        personIdType: '',
-        personId: '',
-        firstName: '',
-        lastName: '',
+  const [searchType, setSearchType] = useState('orderId');
+  const [searchValues, setSearchValues] = useState({
+    orderId: '',
+    orderStatus: '',
+    personIdType: '',
+    personId: '',
+    firstName: '',
+    lastName: '',
+  });
+
+  const handleClearForm = () => {
+    setSearchValues({
+      orderId: '',
+      orderStatus: '',
+      personIdType: '',
+      personId: '',
+      firstName: '',
+      lastName: '',
     });
+  };
 
-    const handleClearForm = () => {
-        setSearchValues({
-            orderId: '',
-            orderStatus: '',
-            personIdType: '',
-            personId: '',
-            firstName: '',
-            lastName: '',
-        });
-    };
+  const handleSearchTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchType(event.target.value);
+  };
 
-    const handleSearchTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchType(event.target.value);
-    };
+  const handleSearchValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-    const handleSearchValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+    setSearchValues({
+      ...searchValues,
+      [name]: value,
+    });
+  };
 
-        setSearchValues({
-          ...searchValues,
-          [name]: value,
-        });
-      };
+  const handleSearchForOrderID = () => {
+    // Agregar la lógica para realizar la búsqueda
+    console.log('Buscando por ID:', searchValues.orderId);
+  };
 
-    const handleSearchForOrderID = () => {
-        // Agregar la lógica para realizar la búsqueda
-        console.log('Buscando por ID:', searchValues.orderId);
-    };
-    
-    const handleSearchForStatus = () => {
-        // Agregar la lógica para realizar la búsqueda
-        console.log('Buscando por Estado:', searchValues.orderStatus);
-    };
+  const handleSearchForStatus = () => {
+    // Agregar la lógica para realizar la búsqueda
+    console.log('Buscando por Estado:', searchValues.orderStatus);
+  };
 
-    const handleSearchForDoc = () => {
-        // Agregar la lógica para realizar la búsqueda
-        console.log('Buscando por Documento:', searchValues.personIdType, searchValues.personId);
-    };
+  const handleSearchForDoc = () => {
+    // Agregar la lógica para realizar la búsqueda
+    console.log('Buscando por Documento:', searchValues.personIdType, searchValues.personId);
+  };
 
-    const handleSearchForFisrtName = () => {
-        // Agregar la lógica para realizar la búsqueda
-        console.log('Buscando por Nombre:', searchValues.firstName);
-    };
+  const handleSearchForFisrtName = () => {
+    // Agregar la lógica para realizar la búsqueda
+    console.log('Buscando por Nombre:', searchValues.firstName);
+  };
 
-    const handleSearchForLastName = () => {
-        // Agregar la lógica para realizar la búsqueda
-        console.log('Buscando por Apellido', searchValues.lastName);
-    };
+  const handleSearchForLastName = () => {
+    // Agregar la lógica para realizar la búsqueda
+    console.log('Buscando por Apellido', searchValues.lastName);
+  };
 
-    return (
+  return (
         <div className="p-8 bg-gray-100 w-11/12 lg:w-[60rem] h-fit rounded-lg">
             <div className='flex flex-col gap-3 divide-y-[3px] divide-gris-oscuro/30 w-full'>
                 <h1 className="text-center text-xl font-bold text-negro-medio uppercase">
                     Búsqueda de Orden mediante
                 </h1>
-                
+
                 <div className='pt-4 px-1 sm:px-5 w-full'>
                     <FormControl fullWidth>
                         <RadioGroup
@@ -105,8 +106,8 @@ export default function SearchOrderForm() {
                                         Buscar
                                     </BlueButton>
                                 </div>
-                               
-                                {/* Búsqueda por Status*/}
+
+                                {/* Búsqueda por Status */}
                                 <div className='pt-2 sm:col-span-2'>
                                     <FormControlLabel value="orderStatus" control={<Radio />} label="Estado de la Orden" />
                                 </div>
@@ -122,7 +123,7 @@ export default function SearchOrderForm() {
                                         select
                                     >
                                         <MenuItem key={0} value={0}>Todos</MenuItem>
-                                        {orderStatus.map((type) => (
+                                        {orderStatus.map(type => (
                                             <MenuItem key={type.value} value={type.value}>{type.name}</MenuItem>
                                         ))}
                                     </TextField>
@@ -133,7 +134,7 @@ export default function SearchOrderForm() {
                                         Buscar
                                     </BlueButton>
                                 </div>
-                                
+
                                 {/* Búsqueda por Documento */}
                                 <div className='pt-2 sm:col-span-2'>
                                     <FormControlLabel value="document" control={<Radio />} label="Documento del Cliente" />
@@ -149,7 +150,7 @@ export default function SearchOrderForm() {
                                         onChange={handleSearchValueChange}
                                         select
                                     >
-                                        {docTypes.map((type) => (
+                                        {docTypes.map(type => (
                                             <MenuItem key={type.name} value={type.value}>{type.abbr}</MenuItem>
                                         ))}
                                         <MenuItem key='No Especificar' value=' '>No Especificar</MenuItem>
@@ -192,7 +193,7 @@ export default function SearchOrderForm() {
                                         Buscar
                                     </BlueButton>
                                 </div>
-                                
+
                                 {/* Búsqueda por Apellido */}
                                 <div className='pt-2 sm:col-span-2'>
                                     <FormControlLabel value="lastName" control={<Radio />} label="Apellido del Cliente" />
@@ -223,5 +224,5 @@ export default function SearchOrderForm() {
                 </div>
             </div>
         </div>
-    );
+  );
 }
