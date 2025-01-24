@@ -1,12 +1,12 @@
 import {
-    DataGrid, GridColDef, GridRowSelectionModel,
+    DataGrid, GridColDef, GridRowSelectionModel, GridToolbar,
     GridToolbarContainer, GridToolbarDensitySelector, GridToolbarExport,
     GridToolbarQuickFilter
 } from '@mui/x-data-grid';
-import LabCalculator, { LabItem } from '../../src/services/lab-calculator';
 import { Box, useMediaQuery } from '@mui/material';
 import { useOrderStore } from "@/src/store";
 import { useEffect, useState } from 'react';
+import { getDocTypeAbbr, loadClients } from '@/src/services/client-service';
 
 function CustomToolbar() {
     return (
@@ -24,48 +24,79 @@ function CustomToolbar() {
 }
 
 const columns: GridColDef[] = [
-  {
-    field: 'code',
-    headerName: 'Código',
-    editable: false,
-    disableColumnMenu: true,
-    maxWidth: 110,
-    minWidth: 80,
-  },
-  {
-    field: 'name',
-    headerName: 'Estudio de Laboratorio',
-    editable: false,
-    disableColumnMenu: true,
-    flex: 380,
-},
-  {
-    field: 'price',
-    headerName: 'Precio',
-    type: 'number',
-    editable: false,
-    disableColumnMenu: true,
-    maxWidth: 110,
-    minWidth: 80,
-  },
+    {
+        field: 'personIdType',
+        headerName: 'Tipo de Documento',
+        editable: false,
+        disableColumnMenu: true,
+        maxWidth: 200,
+        flex: 186,
+        minWidth: 176,
+        align: 'center',
+        headerAlign: 'center',
+    },
+    {
+        field: 'personId',
+        headerName: 'Número de Documento',
+        editable: false,
+        disableColumnMenu: true,
+        maxWidth: 240,
+        flex: 186,
+        minWidth: 200,
+        align: 'center',
+        headerAlign: 'center',
+    },
+    {
+        field: 'names',
+        headerName: 'Nombre y Apellido',
+        editable: false,
+        disableColumnMenu: true,
+        maxWidth: 280,
+        flex: 256,
+        minWidth: 240,
+        align: 'center',
+        headerAlign: 'center',
+    },
+    {
+        field: 'email',
+        headerName: 'Correo Electrónico',
+        editable: false,
+        disableColumnMenu: true,
+        flex: 280,
+    },
+    {
+        field: 'phoneNumber',
+        headerName: 'N° de Teléfono',
+        disableColumnMenu: true,
+        maxWidth: 200,
+        flex: 192,
+        minWidth: 176,
+        align: 'center',
+        headerAlign: 'center',
+    },
 ];
 
-type LabTableInputParams = {
-    rowSelectionModel: GridRowSelectionModel,
-}
 
-export default function LabTableDesktop( { rowSelectionModel }: LabTableInputParams ) {
+export default function ClientTable( ) {
 
+    const allClients = useOrderStore((state) => state.allClients);
     const [paginationModel, setPaginationModel] = useState({
-        pageSize: 5, // Valor por defecto
+        pageSize: 6, // Valor por defecto
         page: 0,
     });
+
+    const rows = allClients.map(client => ({
+        ...client,
+        id: client.id,
+        personIdType: `${getDocTypeAbbr(client.personIdType)}`,
+        names: `${client.firstName}, ${client.lastName}`,
+    }));
     
     const isSmallScreen = useMediaQuery('(max-width:600px)');
     const isLargeScreen = useMediaQuery('(min-width:1536px)');
 
     useEffect(() => {
-        let newPageSize = 5; // Valor por defecto
+        let newPageSize = 6; // Valor por defecto
         if (isSmallScreen) {
             newPageSize = 4;
         } else if (isLargeScreen) {
@@ -91,37 +122,23 @@ export default function LabTableDesktop( { rowSelectionModel }: LabTableInputPar
                         borderTopLeftRadius: 6, 
                     },
                     '& .MuiDataGrid-columnHeaderTitle': {
-                        // backgroundColor: '#7BF3A4',
                         fontWeight: 700,
                     },
                     '& .MuiDataGrid-toolbarContainer': {
                         marginBottom: '8px',
-                    },
-                    '& .MuiDataGrid-overlayWrapper':{
-                        backgroundColor: 'red',
-                        height: 100,
                     },
                     '& .MuiInput-underline:before': {
                         borderBottomWidth: 2,
                         borderBottomColor: '#BFBFBF', 
                     },               
                 }}
-
-                rows={LabCalculator.getCurrentLabItems()}
-                
-
-                onRowSelectionModelChange={(ids) => {
-                    const selectedIDs = new Set(ids);
-                    const selectedRowData: LabItem[] = LabCalculator.getCurrentLabItems().filter(labItem => selectedIDs.has(labItem.id));
-                    useOrderStore.getState().saveSelectedLabItems(selectedRowData);
-                    useOrderStore.setState({ preselectedLabItems: selectedRowData, selectedRows: ids });
-                }}
+                rows={rows}
+                autosizeOnMount= {true}
                 columns={columns}
-                rowSelectionModel={rowSelectionModel}
+                keepNonExistentRowsSelected
                 paginationModel={paginationModel}
                 onPaginationModelChange={setPaginationModel}
-                pageSizeOptions={[4, 5, 7]}
-                checkboxSelection
+                pageSizeOptions={[4, 5, 7, { value: -1, label: 'Todos' }]}
                 slots={{
                     toolbar: CustomToolbar
                 }}

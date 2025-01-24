@@ -1,38 +1,59 @@
 'use client'
+import { usePathname } from 'next/navigation';
 import BlueButton from "@/components/buttons/BlueButton";
-import { docTypes } from "@/data";
+import { docTypes } from "@/src/data";
 import { MenuItem, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ClientFormSchema } from "@/schema";
-import { ClientFormData } from "@/types";
-import GreyButton from "../buttons/GreyButton";
+import { ClientFormSchema } from "@/src/schema";
+import { ClientFormData } from "@/src/types";
 import { useOrderStore } from "@/src/store";
+import ClientFacade from "@/src/services/client-facade";
+import { toast } from 'react-toastify';
 
 
 export default function ClientForm() {
 
-    const { selectedClient } = useOrderStore()
-    
-    const { register, control, handleSubmit, formState: { errors} } = useForm<ClientFormData>({
+    const router = usePathname();
+    const { register, control, handleSubmit, formState: { errors}, reset } = useForm<ClientFormData>({
         resolver: zodResolver(ClientFormSchema)
     });
     
-
-    const onSubmit: SubmitHandler<ClientFormData> = (data) => {
-        const selectedClient = {
-            id: "Por definir", // ID temporal
+    const onSubmit: SubmitHandler<ClientFormData> = async (data) => {
+        
+        const newClient = {
+            id: '', 
             firstName: data.firstName,
             lastName: data.lastName,
             personIdType: data.personIdType,
             personId: data.personId,
-            externalId: "", 
-            booklyId: "",
+            externalId: '', 
+            booklyId: '',
             email: data.email,
             phoneNumber: data.phoneNumber,
         };
- 
-        useOrderStore.setState({ selectedClient });
+
+        // Prueba de registro con API
+        const clientFacade = new ClientFacade();
+        const {response, success} = await clientFacade.createClient(newClient);
+        
+        
+        if (success) {
+            toast.success(`Cliente creado con ID: ${response}`);
+            
+            if (router.includes('/new-order')) {
+                const selectedClient = await clientFacade.getClientById(response);
+                
+                if (typeof selectedClient !== 'string') {
+                    useOrderStore.setState({ selectedClient });
+                } else {
+                    toast.error('Error al obtener el cliente' + selectedClient);
+                }
+            }
+            reset();
+        } else {
+            toast.error('Error al crear el cliente: ' + response);
+        }
     };
 
     return (

@@ -10,21 +10,24 @@ export default function ClientsList() {
     return (
         <>
             {clients.length ? (
-                <div  className="w-full  overflow-y-scroll">
-                    <h3 className="font-black text-3xl text-center border-b-2 border-gris-oscuro/30 h-fit w-11/12">Listado de Clientes</h3>
-                    {clients.map( client => (
-                        <ClientDetails
+                <>
+                    <p className='text-center text-stone-700'>
+                        Verifique los datos antes de seleccionar al cliente para la orden.
+                    </p>
+                    <div  className="w-full grid grid-col-1 lg:grid-cols-2 gap-4">
+                        {clients.map( client => (
+                            <ClientDetails
                             key={client.id}
                             client={client}
-                        />
-                    ))}
-                </div>
+                            />
+                        ))}
+                    </div>
+                </>
             ) : (
                 <>
-                    <p className='text-center text-base 2xl:text-lg text-stone-700'>
+                    <p className='text-center text-stone-700'>
                         No se encontraron clientes con esos parametros de búsqueda. Por favor, complete el formulario para registra al cliente.
                     </p>
-
                     <ClientForm/>
                 </>
             )}

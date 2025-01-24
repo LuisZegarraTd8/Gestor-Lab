@@ -1,6 +1,6 @@
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { LabItem } from '../services/lab-calculator';
+import { LabItem } from '../../src/services/lab-calculator';
 
 type DeleteLabIconButtonInputParams = {
     labItem: LabItem,

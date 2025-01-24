@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import MainHeader from "@/components/nav/MainHeader";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
         <MainHeader/>
         <main className="min-h-[calc(100vh-82px)] py-6">
           {children}
+          <ToastContainer/>
         </main>
       </body>
     </html>

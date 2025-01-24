@@ -1,6 +1,6 @@
 import { Paper, TableCell, TableHead, TableRow, TableContainer, Table, TableBody } from '@mui/material';
 import { TableVirtuoso } from 'react-virtuoso';
-import { LabItem } from '../services/lab-calculator';
+import { LabItem } from '../../src/services/lab-calculator';
 import DeleteLabIconButton from '../buttons/DeleteLabIconButton';
 import React from 'react';
 
@@ -24,7 +24,7 @@ export default function LabMiniSummaryDesktop(
     { selectedLabItems, deleteSelectedLabItem, deleteSelectedRowSelectionModel }: LabMiniSummaryInputParams,
 ) {
     return (
-        <div className=' h-80 sm:h-[25rem] 2xl:h-[30rem]'>
+        <div className=' h-80 sm:h-[25rem] 2xl:h-[28rem]'>
             <TableVirtuoso
                 style={{ height: '100%',  width: '100%', backgroundColor: '#f5f5f4', boxShadow: 'none'}}
                 data={selectedLabItems || []}

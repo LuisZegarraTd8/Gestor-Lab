@@ -1,8 +1,9 @@
-import { Client, LabItem } from "@/types";
+import { Client, LabItem, Order, SelectedLabItem } from "@/src/types";
 import { create } from "zustand";
-import labItemsData from "@/data/lab-oct-2024.json";
+import labItemsData from "./data/lab-oct-2024.json";
 import BigNumber from "bignumber.js";
 import { GridRowSelectionModel } from "@mui/x-data-grid";
+import { loadClients } from "./services/client-service";
 
 const labItemsJson = labItemsData.map((item, index) => {
     let price = item.price.replace('$', '').replace('.', '');
@@ -20,17 +21,25 @@ interface OrderState {
     activeStep: number;
     
     // States de Estudios
-    selectedLabItems: LabItem[];
+    preselectedLabItems: LabItem[];
+    selectedLabItems: SelectedLabItem[];
     totalAmountOrder: string;
     labItems: LabItem[];
     selectedRows: GridRowSelectionModel;
     
     // States de Clientes
-    visibleSearchResult: boolean;
-    visibleSelectedClient: boolean;
+    visibleSearchClientResultStep: boolean;
+    visibleSearchClientResultPage: boolean;
+    visibleSearchClientFormPage: boolean;
+    visibleRegisterClientFormPage: boolean;
     
+    allClients: Client[];
     foundClients: Client[];
     selectedClient: Client;
+
+    allOrders: Order[];
+    selectedOrder: Order['id']
+    selectedOrders: Order['id'][]
 }
 
 interface OrderActions {
@@ -39,30 +48,35 @@ interface OrderActions {
     resetOrder: () => void;
     
     // Actions de Estudios
-    saveSelectedItems: (list: LabItem[]) => void;
+    saveSelectedLabItems: (list: LabItem[]) => void;
     saveTotalAmount: (value: string) => void;
 
     // Actions de Clientes
-    showSearchResult: () => void;
-    hideSearchResult: () => void;
-    showSelectedClient: () => void;
-    hideSelectedClient: () => void;
+    showSearchClientResultStep: () => void;
+    showSearchClientResultPage: () => void;
+    showSearchClientFormPage: () => void;
+    showRegisterClientFormPage: () => void;
 }
 
 const initialState: OrderState = {
     // State del Stepper
     activeStep: 0,
+    
   
     // States de Estudios
+    preselectedLabItems: [],
     selectedLabItems: [],
     totalAmountOrder: '',
     labItems: labItemsJson,
     selectedRows: [],
   
     // States de Clientes
-    visibleSearchResult: false,
-    visibleSelectedClient: false,
-  
+    visibleSearchClientResultStep: false,
+    visibleSearchClientResultPage: true,
+    visibleSearchClientFormPage: false,
+    visibleRegisterClientFormPage: false,
+
+    allClients: loadClients(),
     foundClients: [],
     selectedClient: {
         id: '',
@@ -75,6 +89,10 @@ const initialState: OrderState = {
         email: '',
         phoneNumber: '',
     },
+
+    allOrders: [],
+    selectedOrder: '',
+    selectedOrders: [],
   }
 
 export const useOrderStore = create<OrderState & OrderActions>((set) => ({
@@ -91,8 +109,17 @@ export const useOrderStore = create<OrderState & OrderActions>((set) => ({
 
 
     // Actions de Estudios
-    saveSelectedItems: (list) =>
-        set((state) => ({...state, selectedLabItems: list })),
+    saveSelectedLabItems: (list) =>
+        set((state) => ({
+            ...state,
+            preselectedLabItems: list,
+            selectedLabItems: list.map(item => ({
+                name: item.name,
+                code: item.code,
+                unitPrice: item.price,
+                itemCount: 1,
+            })),
+        })),
 
     saveTotalAmount: (value)  =>
         set((state) => ({...state, totalAmountOrder: value })),
@@ -102,14 +129,27 @@ export const useOrderStore = create<OrderState & OrderActions>((set) => ({
     hideNewClientForm: ()  =>
         set((state) => ({ ...state, visibleNewClientForm: false })),
 
-    showSearchResult: ()  =>
-        set((state) => ({ ...state, visibleSearchResult: true })),
-    hideSearchResult: ()  =>
-        set((state) => ({ ...state, visibleSearchResult: false })),
-
-    showSelectedClient: ()  =>
-        set((state) => ({ ...state, visibleSelectedClient: true })),
-    hideSelectedClient: ()  =>
-        set((state) => ({ ...state, visibleSelectedClient: false })),
+    showSearchClientResultStep: ()  =>
+        set((state) => ({ ...state, visibleSearchClientResultStep: true })),
     
+    showSearchClientResultPage: ()  =>
+        set((state) => ({ ...state,
+            visibleSearchClientResultPage: true,
+            visibleSearchClientFormPage: false,
+            visibleRegisterClientFormPage: false,
+        })),
+    
+    showSearchClientFormPage: ()  =>
+        set((state) => ({ ...state,
+            visibleSearchClientResultPage: false,
+            visibleSearchClientFormPage: true,
+            visibleRegisterClientFormPage: false,
+        })),
+
+    showRegisterClientFormPage: ()  =>
+        set((state) => ({ ...state,
+            visibleSearchClientResultPage: false,
+            visibleSearchClientFormPage: false,
+            visibleRegisterClientFormPage: true,
+        })),
 }))

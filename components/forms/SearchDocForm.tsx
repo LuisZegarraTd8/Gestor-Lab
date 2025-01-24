@@ -1,26 +1,43 @@
 'use client'
 import BlueButton from "@/components/buttons/BlueButton";
-import { docTypes } from "@/data";
+import { docTypes } from "@/src/data";
 import { MenuItem, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SearchDocFormSchema } from "@/schema";
-import { SearchDocFormData } from "@/types";
+import { SearchDocFormSchema } from "@/src/schema";
+import { SearchDocFormData } from "@/src/types";
 import { useOrderStore } from "@/src/store";
+import ClientFacade from "@/src/services/client-facade";
+import { toast } from "react-toastify";
 
 
 export default function SearchDocForm() {
 
-    const { showSearchResult } = useOrderStore()
-
+    const { showSearchClientResultStep } = useOrderStore()
+    
     const { register, control, handleSubmit, formState: { errors} } = useForm<SearchDocFormData>({
         resolver: zodResolver(SearchDocFormSchema)
     });
     
-    const onSubmit: SubmitHandler<SearchDocFormData> = (data) => {
-        console.log("Buscando al cliente...",data);
-        
-        showSearchResult();
+    const onSubmit: SubmitHandler<SearchDocFormData> = async (data) => {
+        // Busqueda de cliente por Id con API
+        const clientFacade = new ClientFacade();
+        const clients = await clientFacade.getClientsByDoc({
+            personIdType: data.personIdType,
+            personId: data.personId
+        });
+
+        if (typeof clients === 'string') {
+            toast.error('Error al buscar el cliente: ' + clients);
+        } else {
+            if (clients.data.length === 0) {
+                toast.warn('No se encontraron clientes con esos datos.');
+            } else {
+                toast.success(`Se encontraron ${clients.data.length} clientes.`);
+            }
+            useOrderStore.setState({ foundClients: clients.data });
+            showSearchClientResultStep();
+        }
     };
     
 
@@ -35,11 +52,11 @@ export default function SearchDocForm() {
                     defaultValue={docTypes.length > 0 ? docTypes[0].value : ''}
                     render={({ field }) => (
                         <TextField
-                            {...field}
-                            select
-                            label="Tipo de Documento"
-                            fullWidth
-                            margin="normal"
+                        {...field}
+                        select
+                        label="Tipo de Documento"
+                        fullWidth
+                        margin="normal"
                         >
                             {docTypes.map((type) => (
                                 <MenuItem key={type.name} value={type.value}>{type.abbr}</MenuItem>
@@ -47,7 +64,7 @@ export default function SearchDocForm() {
                             <MenuItem key='No Especificar' value=' '>No Especificar</MenuItem>
                         </TextField>
                     )}
-                />
+                    />
             </div>
 
             <div className="sm:col-span-5">
@@ -58,7 +75,7 @@ export default function SearchDocForm() {
                     margin="normal"
                     error={!!errors.personId}
                     helperText={errors.personId?.message}
-                />
+                    />
             </div>
 
             {/* Boton de Búsqueda */}
@@ -66,6 +83,5 @@ export default function SearchDocForm() {
                 <BlueButton type="submit" fullWidth >Buscar Cliente</BlueButton>
             </div>
         </form>
-
     )
 }

@@ -1,16 +1,33 @@
 'use client'
 import Link from "next/link";
 import Image from 'next/image';
-import React, { useMemo } from "react";
+import React, { memo, useMemo, useState } from "react";
 import BlueButton from "../buttons/BlueButton";
+import logo from '@/src/public/logo-cemevyf-2024.webp';
+import { Box, Modal, Typography } from "@mui/material";
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 500,
+    bgcolor: 'background.paper',
+    border: '1px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
-const MainHeader = React.memo(function MyHeader() {
+const MainHeader = memo(function MyHeader() {
     const navItems = useMemo(() => ([
         { name: 'Nueva Orden', slug: 'new-order' },
         { name: 'Buscar Orden', slug: 'search-order' },
         { name: 'Buscar Cliente', slug: 'search-client' }
     ]), []);
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return (
         <div className='bg-gray-50 max-h-24 py-2 border-b-2 border-gris-claro'>
@@ -18,8 +35,9 @@ const MainHeader = React.memo(function MyHeader() {
                 <div className="flex flex-row gap-2 md:gap-5">
                     <Link href="/" className="w-16 h-16 relative">
                         <Image
-                        priority fill 
-                        src="/logo-cemevyf-2024.png" 
+                        priority
+                        fill 
+                        src={logo}
                         alt="Logo" 
                         sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" 
                         />
@@ -39,9 +57,34 @@ const MainHeader = React.memo(function MyHeader() {
                 </div>
 
                 <div>
-                    <BlueButton sx={{fontSize: 14, display: { xs: 'none', sm: 'block' }}}>Versión: Octubre 2024</BlueButton>
+                    <BlueButton sx={{fontSize: 14, display: { xs: 'none', sm: 'block' }}}
+                        onClick={handleOpen}
+                    >Versión: 0.0.1</BlueButton>
                 </div>
             </div>
+            
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" fontWeight={700}>
+                    Información de la aplicación CEMEVYF
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        Sistema para la gestion de Ordenes de Laboratorio y clientes.
+                    </Typography>
+
+                    <Typography sx={{ mt: 2 }}>
+                        Versión: 0.0.1
+                    </Typography>
+                    <Typography>
+                        Ultima Actualizacion de Precios: Octubre 2024
+                    </Typography>
+                </Box>
+            </Modal>
         </div>
     );
 });

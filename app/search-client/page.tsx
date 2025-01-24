@@ -1,32 +1,121 @@
 'use client'
-import HeaderPatient from '@/components/tables/HeaderPatient';
-import TablePatient from '@/components/tables/TablePatient';
 import { Alert } from '@mui/material';
 import BlueButton from '@/components/buttons/BlueButton';
+import GreyButton from '@/components/buttons/GreyButton';
+import EditClientTable from '@/components/tables/EditClientTable';
+import ClientForm from '@/components/forms/ClientForm';
+import SearchClientForm from '@/components/forms/SearchClientForm';
+import { useOrderStore } from '@/src/store';
+import ClientFacade from '@/src/services/client-facade';
+import { toast } from 'react-toastify';
+
 
 export default function SearchClient() {
+  
+  const { showRegisterClientFormPage, showSearchClientResultPage, showSearchClientFormPage } = useOrderStore()
+  const TABLE_VIEW = useOrderStore( state => state.visibleSearchClientResultPage)
+  const REGISTER_VIEW = useOrderStore( state => state.visibleRegisterClientFormPage)
+  const SEARCH_VIEW = useOrderStore( state => state.visibleSearchClientFormPage)
+  
+  const handleAddClient = () => {
+    showRegisterClientFormPage();
+  };
+  
+  const handleSearchClient = () => {
+    showSearchClientFormPage();
+  };
+  
+  const handleClientTable = () => {
+    showSearchClientResultPage();
+  };
+  
+  const handleResetTable = async () => {
+    // Para reiniciar la tabla de clientes con API
+    const clientFacade = new ClientFacade();
+    const clients = await clientFacade.getClients();
+
+    if (typeof clients === 'string') {
+        toast.error('Error al buscar el cliente: ' + clients);
+    } else {
+        if (clients.data.length === 0) {
+            toast.warn('No se encontraron clientes para mostrar.');
+        } else {
+            toast.success(`Se encontraron ${clients.data.length} clientes.`);
+        }
+        useOrderStore.setState({ foundClients: clients.data });
+    }
+  };
+
+
   return (
-    <div className="max-w-7xl flex flex-col mx-auto gap-6 h-auto">
-      <h1 className='text-2xl font-bold text-negro-claro uppercase text-center'>Buscar Paciente | Lista de pacientes</h1>
-      <div className='px-16'>
-        <Alert variant="filled" severity="info" sx={{ backgroundColor:'#008da6'}}>
-          Aqui podras encontrar a todos los pacientes de laboratorio y editar su información de contacto.
+    <div className="max-w-7xl flex flex-col mx-auto gap-5 h-auto">
+      <div className="mx-auto">
+        <Alert variant="filled" severity="info" sx={{ backgroundColor:'#3397b3' }}>
+          Aquí podrás encontrar a todos los clientes de laboratorio y filtrar si se necesita buscar a un cliente en especifico. Pronto se podrás editar su información de contacto.
         </Alert>
       </div>
 
-      <div className='bg-gris-muy-claro w-full px-5 py-8 rounded-lg flex flex-col gap-6 h-full'>
-        
-        <div className='flex flex-col gap-6 divide-y-[3px] divide-gris-oscuro/30'>
-          <HeaderPatient/>
-          <div className='pt-4 px-5'>
-            <TablePatient/>
+      <div className='bg-neutral-100 w-full p-6 rounded-lg flex flex-col h-full'>
+        {/* Tabla de clientes */}
+        {TABLE_VIEW &&
+        <>
+          <div className=' flex flex-row justify-between items-end border-b-4 border-gris-oscuro/30 h-fit px-8 pb-3'>
+            <h3 className="text-xl font-bold text-negro-claro uppercase">
+              Lista de Clientes:
+            </h3>
+
+            <div className='flex gap-4 flex-wrap'>
+              <BlueButton onClick={handleResetTable}>Limpiar Filtros</BlueButton>
+              <BlueButton onClick={handleAddClient}>Agregar Cliente</BlueButton>
+              <BlueButton onClick={handleSearchClient}>Buscar Cliente</BlueButton>
+            </div>
           </div>
-        </div>
+          <div className='p-3'>
+            {/* <ClientTable/> */}
+            <EditClientTable/>
+          </div>
+        </>
+        }
+
+        {/* Formulario para agregar un cliente */}
+        {REGISTER_VIEW &&
+        <>
+          <div className=' flex flex-row justify-between items-end border-b-4 border-gris-oscuro/30 h-fit px-8 pb-3'>
+            <h3 className="text-xl font-bold text-negro-claro uppercase">
+              Formulario de Nuevo Cliente:
+            </h3>
+
+            <div className='flex gap-4'>
+              <BlueButton onClick={handleSearchClient}>Buscar Cliente</BlueButton>
+              <BlueButton onClick={handleClientTable}>Volver a la tabla</BlueButton>
+            </div>
+          </div>
+          <div className='p-3 mx-auto'>
+            <ClientForm/>
+          </div>
+        </>
+        }
         
-        <div className=' flex content-center w-1/4 mx-auto gap-6 '>
-          <BlueButton fullWidth>Nueva Búsqueda</BlueButton>
-        </div> 
+        {/* Formulario para buscar un cliente */}
+        {SEARCH_VIEW &&
+        <>
+          <div className=' flex flex-row justify-between items-end border-b-4 border-gris-oscuro/30 h-fit px-8 pb-3'>
+            <h3 className="text-xl font-bold text-negro-claro uppercase">
+              Buscar Cliente mediante:
+            </h3>
+
+            <div className='flex gap-4'>
+              <BlueButton onClick={handleAddClient}>Agregar Cliente</BlueButton>
+              <BlueButton onClick={handleClientTable}>Volver a la tabla</BlueButton>
+            </div>
+          </div>
+          <div className='p-3 mx-auto'>
+            <SearchClientForm/>
+          </div>
+        </>
+        }
       </div>
+
     </div>
   )
 }

@@ -1,5 +1,6 @@
-import { Client } from "@/types"
+import { Client } from "@/src/types"
 import ClientDetailItem from "./ClientDetailItem"
+import { getDocTypeAbbr } from "@/src/services/client-service"
 
 type ClientDetailsProps = {
     client: Client
@@ -12,9 +13,9 @@ export default function SelectedClientDetails({client} : ClientDetailsProps) {
             <ClientDetailItem label="ID" data={client.id} />
             <ClientDetailItem label="Nombre" data={client.firstName} />
             <ClientDetailItem label="Apellido" data={client.lastName} />
-            <ClientDetailItem label="Tipo de Documento" data={client.personIdType} />
+            <ClientDetailItem label="Tipo de Documento" data={getDocTypeAbbr(client.personIdType)} />
             <ClientDetailItem label="Número de Documento" data={client.personId} />
-            <ClientDetailItem label="Email" data={client.email} />
+            <ClientDetailItem label="Correo Electrónico" data={client.email} />
             <ClientDetailItem label="Número de Teléfono" data={client.phoneNumber} />
         </div>
     )

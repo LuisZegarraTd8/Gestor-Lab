@@ -9,7 +9,7 @@ import BlueButton from "../buttons/BlueButton"
 
 export default function OrderPreviewStep() {
 
-    const selectedItems = useOrderStore( (state) => state.selectedLabItems )
+    const selectedItems = useOrderStore( (state) => state.preselectedLabItems )
     const totalAmountOrder  = useOrderStore( (state) => state.totalAmountOrder )
     const selectedClient = useOrderStore( (state) => state.selectedClient )
     const setActiveStep = useOrderStore((state) => state.setActiveStep);
@@ -23,14 +23,14 @@ export default function OrderPreviewStep() {
     };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-4">
         <div className="mx-auto">
-            <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC' }}>
-                Por favor antes de continuar, revise y verifique que la información del paciente, como también los estudios sean correctos.
+            <Alert variant="filled" severity="info" sx={{ backgroundColor:'#3397b3' }}>
+            Por favor antes de continuar, revise y verifique que la información del paciente, como también los estudios sean correctos.
             </Alert>
         </div>
 
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[35rem] 2xl:min-h-[43rem]'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[35rem] 2xl:min-h-[40rem]'>
             {/* Client Preview */}
             <div className="p-6 rounded-lg bg-neutral-100 flex flex-col justify-start gap-2 shadow-md">
                 <h2 className="text-center text-lg font-bold text-negro-claro uppercase py-2 border-b-4 border-gris-oscuro/30 h-fit">

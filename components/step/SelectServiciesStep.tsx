@@ -1,8 +1,7 @@
-import LabCalculator, {LabItem} from "../services/lab-calculator";
+import LabCalculator, {LabItem} from "../../src/services/lab-calculator";
 import {useEffect} from "react";
-import {GridRowSelectionModel} from "@mui/x-data-grid";
 import BigNumber from "bignumber.js";
-import MathUtils from "../services/math-utils";
+import MathUtils from "../../src/services/math-utils";
 import LabMiniSummaryDesktop from '../tables/LabMiniSummaryDesktop';
 import LabTableDesktop from "../tables/LabTableDesktop";
 import TotalQuote from "../tables/TotalQuote";
@@ -12,7 +11,7 @@ import { useOrderStore } from "@/src/store";
 
 export default function SelectServiciesStep() {
     // Store de Zustand
-    const selectedItems = useOrderStore((state) => state.selectedLabItems )
+    const selectedItems = useOrderStore((state) => state.preselectedLabItems )
     const totalAmountOrder  = useOrderStore((state) => state.totalAmountOrder )
     const selectedRowModel  = useOrderStore((state) => state.selectedRows )
     const total = LabCalculator.getTotalAmount(selectedItems);
@@ -32,19 +31,20 @@ export default function SelectServiciesStep() {
 
     const deleteSelectedLabItem = (itemToDelete: LabItem) => {
         useOrderStore.setState((state) => ({
-            selectedLabItems: state.selectedLabItems.filter(labItem => labItem.id !== itemToDelete.id)
+            preselectedLabItems: state.preselectedLabItems.filter(labItem => labItem.id !== itemToDelete.id),
+            selectedLabItems: state.selectedLabItems.filter(labItem => labItem.code !== itemToDelete.code),
         }));
     };
 
     return (
         <div className="flex flex-col gap-4">
             <div className="mx-auto">
-                <Alert variant="filled" severity="info" sx={{ backgroundColor:'#47A2BC' }}>
+                <Alert variant="filled" severity="info" sx={{ backgroundColor:'#3397b3' }}>
                     Por favor para continuar, realice la búsqueda y seleccione los estudios que quiere cotizar. El total está redondeado sin centavos.
                 </Alert>
             </div>
 
-            <div className='grid grid-cols-1 lg:grid-cols-7 gap-5 min-h-[35rem] 2xl:min-h-[43rem]'>
+            <div className='grid grid-cols-1 lg:grid-cols-7 gap-5 min-h-[35rem] 2xl:min-h-[40rem]'>
                 {/* Option Labs Table */}
                 <div className="px-2 sm:px-6 py-4 xl:py-6 rounded-lg bg-neutral-100 flex flex-col justify-start gap-2 shadow-md lg:col-span-4">
                     <h2 className="text-center text-lg font-bold text-negro-claro uppercase py-2 border-b-4 border-gris-oscuro/30 h-fit">

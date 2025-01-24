@@ -5,7 +5,7 @@ import {
     Radio, TextField, MenuItem, 
 } from '@mui/material';
 import BlueButton from "@/components/buttons/BlueButton";
-import { docTypes, orderStatus } from '@/data';
+import { docTypes, orderStatus } from '@/src/data';
 import GreyButton from '../buttons/GreyButton';
 
 
