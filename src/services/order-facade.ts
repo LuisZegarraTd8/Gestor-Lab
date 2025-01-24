@@ -2,19 +2,19 @@ import { promises } from "dns";
 import { HealthOrder, NewHealthOrder, OrdersResponse } from "../types";
 
 
-interface UpdateOrderStatusResponse { 
+interface UpdateOrderStatusResponse {
     success: boolean;
-    response: string 
-} 
+    response: string
+}
 
-interface getOrderStatusByIdResponse { 
+interface getOrderStatusByIdResponse {
     success: boolean;
-    response: string 
-} 
+    response: string
+}
 
 
 export default class OrderFacade {
-    
+
     private apiUrl: string;
     constructor() {
       this.apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
@@ -70,15 +70,15 @@ export default class OrderFacade {
             return `Error al obtener la orden ${error}`;
         }
     };
-    
+
 
     // Funcion para obtener varias ordenes
     async getOrders(
         dateFrom: string = '',
-        dateTo: string = '', 
-        currency: string = 'ARS', 
-        page: number = 1, 
-        take: number = 10): Promise<OrdersResponse | string> 
+        dateTo: string = '',
+        currency: string = 'ARS',
+        page: number = 1,
+        take: number = 10): Promise<OrdersResponse | string>
     {
         try {
             const queryParams = new URLSearchParams({
@@ -88,7 +88,7 @@ export default class OrderFacade {
                 page: page.toString(),
                 take: take.toString()
             });
-            
+
             const response = await fetch(`${this.apiUrl}/health-orders?${queryParams.toString()}`,
             {
                 method: "GET",
@@ -99,10 +99,10 @@ export default class OrderFacade {
                 const errorData = await response.json();
                 throw new Error(`${response.status} ${response.statusText} - ${errorData.message}`);
             }
-        
+
             const result = await response.json();
             return result as OrdersResponse;
-    
+
         } catch (error) {
             return `Error al obtener la lista de órdenes: ${error}`;
         }
@@ -116,7 +116,7 @@ export default class OrderFacade {
             if (typeof order === 'string') {
                 throw new Error(order);
             }
-        
+
             let newStatus = '';
             switch (order.status) {
                 case 'quoted':
@@ -131,25 +131,25 @@ export default class OrderFacade {
                 default:
                     throw new Error('Estado de la orden no válido');
             }
-        
+
             const raw = JSON.stringify({ status: newStatus });
 
-            const response = await fetch(`${this.apiUrl}/health-orders/${id}/status`, 
+            const response = await fetch(`${this.apiUrl}/health-orders/${id}/status`,
                 {
-                    method: "PUT",
+                    method: "PATCH",
                     headers: { "Content-Type": "application/json" },
                     body: raw,
                     redirect: "follow"
                 }
             );
-            
+
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(`${response.status} ${response.statusText} - ${errorData.message}`);
             }
-        
+
             return { success: true, response: `Estado de la orden actualizado a ${newStatus}` };
-    
+
         } catch (error) {
             return { success: false, response: `Error al actualizar el estado de la orden: ${error}` };
         }
