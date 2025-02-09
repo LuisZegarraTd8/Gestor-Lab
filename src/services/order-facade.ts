@@ -17,7 +17,7 @@ export default class OrderFacade {
   private apiUrl: string;
 
   constructor() {
-    this.apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+    this.apiUrl = process.env.CEMEVYF_HEALTH_ORDERS_API_URL || '';
   }
 
 
