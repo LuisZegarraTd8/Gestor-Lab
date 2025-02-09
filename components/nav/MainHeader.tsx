@@ -60,7 +60,7 @@ const MainHeader = memo(() => {
                 <div>
                     <BlueButton sx={{ fontSize: 14, display: { xs: 'none', sm: 'block' } }}
                         onClick={handleOpen}
-                    >Versión: 0.0.1</BlueButton>
+                    >Versión: {process.env.NEXT_PUBLIC_APP_VERSION} </BlueButton>
                 </div>
             </div>
 
@@ -79,7 +79,7 @@ const MainHeader = memo(() => {
                     </Typography>
 
                     <Typography sx={{ mt: 2 }}>
-                        Versión: 0.0.1
+                        Versión: {process.env.NEXT_PUBLIC_APP_VERSION}
                     </Typography>
                     <Typography>
                         Ultima Actualizacion de Precios: Octubre 2024
